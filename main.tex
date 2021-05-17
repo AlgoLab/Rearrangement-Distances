@@ -6,7 +6,7 @@
 \usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{epstopdf}
-\usepackage{amssymb,amsmath}  
+\usepackage{amssymb,amsmath}
 \usepackage{array}
 \usepackage{xspace,enumerate}
 \usepackage{amsthm}
@@ -74,13 +74,13 @@
 \newtheorem{problem2}{Problem}{\bfseries}{\itshape}
 \newtheorem{example2}{Example}{\itshape}{\rmfamily}
 \newtheorem{example}{Example}
-\newtheorem{lemma}{Lemma}  
+\newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
 \newtheorem{fact}[theorem]{Fact}
 \newtheorem{observation}[theorem]{Observation}
 \SetKwInput{Algorithm}{Algorithm}
-\newtheorem{corollary}[theorem]{Corollary}  
+\newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}{Conjecture}
 \crefname{hypothesis}{Hypothesis}{Hypotheses}
 \newtheorem{problem}{Problem}
@@ -100,7 +100,7 @@ The leaves of such trees are labelled by the entities they represent, while the 
 A great wealth of methods to infer phylogenies have been developed over the decades~\cite{felsenstein2004inferring,steel2016phylogeny}, together with various techniques to compare the output of different algorithms, e.g., by building a consensus tree that captures the similarity between a set of conflicting trees~\cite{bryant2003classification,jansson2016improved,jansson2016algorithms,DBLP:conf/icalp/GawrychowskiLSW18} or by defining a metric between two trees~\cite{dobson1975comparing,brodal2013efficient,estabrook1985comparison,dudek2019computing,robinson1979comparison,robinson1981comparison}.
 
 Fully-labelled trees, in opposition to classical phylogenies, may model an evolutionary history where the internal nodes, just like the leaves, correspond to extant entities.
-An important phenomenon that fits this model well is cancer progression~\cite{hajirasouliha2014combinatorial,nowell1976clonal}.
+An important phenomenon that fits this model well is cancer progressions~\cite{hajirasouliha2014combinatorial,nowell1976clonal}.
 With the increasing amount of data and algorithms becoming available for inferring cancer evolution~\cite{malikic2019phiscs,jiao2014inferring,yuan2015bitphylogeny,bonizzoni2018does,bonizzoni2017beyond}, there is a pressing need of methods to provide a meaningful comparison among the trees produced by different approaches.
 Besides the well-studied edit distance for fully-labelled trees~\cite{tai1979tree,zhang1989simple,pawlik2015efficient,mcvicar2016sumoted}, a few recent papers proposed ad-hoc metrics for tumor phylogenies~\cite{Karpov2019,govek2018consensus,DiNardo2019,Bioinfo2020}.
 Taking inspiration from the existing literature~\cite{dasgupta1997distances, bordewich2005computational, allen2001subtree,steel2016phylogeny} on phylogeny rearrangement, the study of an operational notion of distance for
@@ -108,68 +108,77 @@ rearranging a fully-labelled tree is of great interest, and there are still many
 
 In this work, we open the investigation of some notions of the
 rearrangement distance for two rooted trees which are fully labelled
-by the same set of labels.  Following the existing
+by the same set of labels.
+Building upon the existing
 literature~\cite{semple2003phylogenetics,steel2016phylogeny} on
-phylogeny rearrangement, we extend to several operations for
-rearranging a fully-labelled tree. 
+phylogenetic trees rearrangement,  we propose some operations for
+rearranging a fully-labelled tree.
 The distance between a pair of
 trees is then the shortest sequence of these operations that
-transforms the first tree into the second tree. 
+transforms the first tree into the second tree.
 We consider rooted trees on $n$ nodes labelled with distinct labels from $[n]=\{1,2,\ldots,n\}$, and identify nodes with their labels.
 The first operation
 we introduce is an adaptation of the SPR
-operation~\cite{bordewich2005computational} to a fully-labelled tree. We call it a link-and-cut operation and define it as follows.
-\begin{itemize}
-\item \textbf{link-and-cut operation}: given $u$, $v$ and $w$ such that $v$ is a child of $u$ and $w$ is not a descendant of $v$, the link-and-cut operation $v\,|\,u\rightarrow w$ consists of two suboperations: cut the edge $(v,u)$ and add the edge $(v,w)$, effectively switching the parent of $v$ from $u$ to $w$.
-\end{itemize}
-%
-We
-introduce a second operation that consists of a permutation of the
-labels of the tree (notice that such an operation does not really
-make sense on leaf-labelled phylogenies). We call this second operation a permutation operation and we define it as follows.
-%
-\begin{itemize}
-\item \textbf{permutation operation}: apply some permutation $\pi : [n] \rightarrow [n]$ to the nodes. 
-If a node $u$ was a child of $v$ before the operation, then after the operation $\pi(u)$ is a child of $\pi(v)$.
-\end{itemize}
-%
-The size $|\pi|$ of a permutation is the number of elements $x$ s.t. $\pi(x)\neq x$.
-
-Two trees $\Tone$ and $\Ttwo$ are isomorphic if and only if one can reorder the children of every node so as to make the
-trees identical after disregarding the labels. The \emph{permutation distance} $d_{\pi}(T_1, T_2)$ between two isomorphic trees is the smallest size $|\pi|$ of a permutation $\pi$ that transforms $\Tone$ into $\Ttwo$.
+operation~\cite{bordewich2005computational} to a fully-labelled tree. We call such an operation \emph{link-and-cut} operation, while the second operation
+is a \emph{permutation} of some labels of the tree (notice that such an operation does change the topology of the tree).
+When only one kind of operations is allowed, we have the link-and-cut distance and the permutation distance. When both operations are possible, then we have the rearrangement distance.
 
 For computing the permutation distance, in Section~\ref{sec:permutation} we connect the complexity to that of calculating the largest cardinality matching in a sparse bipartite graph. By designing two-way reductions we show that these problems are equivalent, up to polylogarithmic factors.
 Due to the recent progress in the area of fine-grained complexity we now know, for many problems that can be solved in polynomial
 time, what is essentially the best possible exponent in the running time, conditioned on some plausible but yet unproven
-hypothesis~\cite{Williams18}. 
+hypothesis~\cite{Williams18}.
 
-For max-flow, and more specifically maximum matching, this is not the case yet, although
-we do have some understanding of the complexity of the related problem of computing the max-flow between all pairs of
-nodes~\cite{AbboudKT20,KrauthgamerT18,AbboudGIKPTUW19}. So, even though our reductions don't tell us what is the best possible
-exponent in the running time, they do imply that it is the same as for maximum matching in a sparse bipartite graph.
-In particular, by plugging in the asymptotically fastest known algorithm~\cite{liu2020faster}, we obtain an $\ctO(n^{4/3+o(1)})$ time algorithm for computing
-the permutation distance between two trees on $n$ nodes. The main technical novelty in our reduction from permutation
-distance is that, even though the natural approach would result in multiple instances of weighted maximum bipartite matching,
-we manage to keep the graphs unweighted.
-
-The size of a sequence of link-and-cut and permutation operations is the sum of the number of link-and-cut
-operations and the total size of all permutations.
-The \emph{rearrangement distance} $d(\Tone,\Ttwo)$ between two (not necessarily isomorphic) trees with identical roots is the smallest size of any sequence of link-and-cut and permutation operations that, without permuting the root, transform $\Tone$
-into $\Ttwo$. 
-
-In Section~\ref{sec:rearrangement} we show that computing the rearrangement distance between two trees is NP-hard, via a reduction from $3$-dimensional matching~\cite{karp1972reducibility}. In Section~\ref{sec:approxbinary} we consider the special case where one of the two tree is binary and give a simple linear-time $4$-approximation ratio algorithm. 
+In Section~\ref{sec:rearrangement} we show that computing the rearrangement distance between two trees is NP-hard, via a reduction from $3$-dimensional matching~\cite{karp1972reducibility}. In Section~\ref{sec:approxbinary} we consider the special case where one of the two tree is binary and give a simple linear-time $4$-approximation ratio algorithm.
 In Section~\ref{sec:approxtree} we design a linear-time constant-factor approximation algorithm that does
 not assume that the trees are binary. The algorithm consists of multiple phases, each of them introducing more and
 more structure into the currently considered instance, while making sure that we don't pay more than the optimal distance
 times some constant. To connect the number of steps used in every phase with the optimal distance, we introduce a new
 combinatorial object that can be used to lower bound the latter, inspired by the well-known algorithm
 for computing the majority~\cite{Moore91}.
-Finally, in Section~\ref{sec:fixedpar} we show that there also exists a fixed parameter algorithm for the rearrangement distance.
+In Section~\ref{sec:fixedpar} we describe a fixed-parameter algorithm for the rearrangement distance.
+Finally, we have run an experimental analysis to validate the approximation factor of those algorithms.
 
 \section{Preliminaries}\label{sec:preliminariestree}
+
+In the following of the paper, by tree we mean fully-labeled trees, that is all nodes can be labeled. Moreover, all problems studied will have as input two fully-labeled trees such that no two nodes of a tree share the same label, and the set of labels is $[n]$ for both trees, where $n$ is the number of nodes of those trees.
+Now we can introduce the two operations on trees that we will study.
+
+
+
+
+\begin{definition}[link-and-cut operation]
+  \label{def:link-and-cut}
+Let $u$, $v$, and $w$ be three vertices of a tree $T$,  such that $v$ is a child of $u$ and $w$ is not a descendant of $v$.
+Then the link-and-cut operation $v\,|\,u\rightarrow w$ on $T$ consists of a sequence of two operations: first delete from $T$ the edge $(v,u)$, then add the edge $(v,w)$, effectively switching the parent of $v$ from $u$ to $w$.
+\end{definition}
+
+%
+\begin{definition}[permutation operation]
+  \label{def:permutation}
+  Let $T$ be a tree and let $\pi:[n]\mapsto [n]$ be an injective and surjectve function.
+  Then the result of applying $\pi$ to $T$ is changing the label of each node of $T$ labeled by $x$ to $\pi(x)$.
+\end{definition}
+%
+
+Notice that such a function $\pi$ is a permutation of a subset of $[n]$, where only the labels $x$ such that $\pi(x)\neq x$ are involved in the permutation.
+The size $|\pi|$ of a permutation is the number of elements $x$ s.t. $\pi(x)\neq x$.
+Recall that two trees $\Tone$ and $\Ttwo$ are isomorphic if and only if we can reorder the children of every node so as to make the
+trees identical after disregarding the labels.
+
+
+The \emph{permutation distance} $d_{\pi}(T_1, T_2)$ between two isomorphic trees is the smallest size $|\pi|$ of a permutation $\pi$ that transforms $\Tone$ into $\Ttwo$.
+
+
+
+The size of a sequence of link-and-cut and permutation operations is the sum of the number of link-and-cut
+operations and the total size of all permutations.
+The \emph{rearrangement distance} $d(\Tone,\Ttwo)$ between two (not necessarily isomorphic) trees with identical roots is the smallest size of any sequence of link-and-cut and permutation operations that, without permuting the root, transform $\Tone$
+into $\Ttwo$.
+
+
 Let $[n]=\{1,2,\ldots,n\}$.
 We consider rooted trees and forests on nodes labelled with distinct labels from $[n]$, and identify nodes with their
-labels. 
+labels.
 The parent of $u$ in $F$ is denoted $p_{F}(u)$, and we use the convention
 that $p_{F}(u)=\bot$ when $u$ is a root in $F$. $F|u$ denotes the subtree of $F$ rooted at $u$,
 $\children_{F}(u)$ stands for the set of children of a node $u$ in $F$, and $\level_{F}(u)$ is the level of $u$ in $F$
@@ -181,10 +190,10 @@ Let $\cI(\Tone,\Ttwo)$ denote the set of all such bijections $\mu$.
 Given two isomorphic trees $\Tone$ and $\Ttwo$, we seek a permutation $\pi$ with the smallest possible size that
 transforms $\Tone$ into $\Ttwo$. This is equivalent to finding $\mu\in\cI(\Tone,\Ttwo)$ that maximises
 the number of conserved nodes $\conserved(\mu)=\{ u :  u = \mu(u) \}$,
-as these two values sum up to $n$. 
+as these two values sum up to $n$.
 
 We now give the following notions of \emph{distance} between trees
-$T_1$ and $T_2$ labelled by $[n]$. 
+$T_1$ and $T_2$ labelled by $[n]$.
 Unless otherwise stated, throughout this paper we will assume that the roots of $\Tone$ and $\Ttwo$ are identical, and cannot participate in any permutation operation.
 %
 \begin{definition}[link-and-cut distance]
@@ -195,7 +204,7 @@ Unless otherwise stated, throughout this paper we will assume that the roots of 
 \end{definition}
 %
 The following Lemma ensures that the definition of link-and-cut
-distance is well posed.  
+distance is well posed.
 \begin{lemma}
 \label{lemma:wellposed}
 Given trees $T_1$ and $T_2$ each labelled by $[n]$, there always
@@ -227,7 +236,7 @@ $T_2$, giving rise to the cycle $(w \rightarrow v \rightarrow \cdots
 
 \begin{definition}[rearrangement distance]
   \label{definition:rearrangment}
-  The \emph{rearrangement distance} $d(T_1,T_2)$ is the smallest size of any 
+  The \emph{rearrangement distance} $d(T_1,T_2)$ is the smallest size of any
   sequence of link-and-cut and permutation operations that transforms $T_1$ into $T_2$.
 \end{definition}
 
@@ -338,16 +347,16 @@ In Section~\ref{sec:approxtree} we connect $d(\Tone,\Ttwo)$ and $\tilde{d}(\Tone
 
 A matching in a bipartite graph is a subset of edges with no two edges meeting at the same vertex. A maximum matching
 in an unweighted bipartite graph is a matching of maximum cardinality, whereas a maximum weight matching in a weighted
-bipartite graph is a matching in which the sum of weights is maximised. 
+bipartite graph is a matching in which the sum of weights is maximised.
 Given an unweighted bipartite graph with $m$ edges, the well-known algorithm by Hopcroft and Karp~\cite{HopcroftK73} finds
-a maximum matching in $\cO(m^{1.5})$ time. This has been recently improved by Liu and Sidford to $\tilde\cO(m^{4/3+o(1)})~$\cite{liu2020faster}. 
+a maximum matching in $\cO(m^{1.5})$ time. This has been recently improved by Liu and Sidford to $\tilde\cO(m^{4/3+o(1)})~$\cite{liu2020faster}.
 
 A \emph{heavy path decomposition} of a tree $T$ is obtained by selecting, for every non-leaf node $u\in T$, its \emph{heavy child} $v$ such
 that $T|v$ is the largest: there will be some subtlety in how to resolve a tie in this definition that will be explained in detail later.
 This procedure decomposes the nodes of $T$ into node-disjoint paths called \emph{heavy paths}.
 Each heavy path $p$ starts at some node, called its \emph{head}, and ends at a leaf: $\head_{T}(u)$ denotes the head of the heavy path containing a node $u$ in $T$. An important property of such a decomposition is
 that the number of distinct heavy paths above any leaf (that is, intersecting the path from a leaf to the root) is only logarithmic
-in the size of $T$~\cite{DBLP:journals/jcss/SleatorT83}. 
+in the size of $T$~\cite{DBLP:journals/jcss/SleatorT83}.
 
 \section{Permutation Distance}
 \label{sec:permutation}
@@ -361,6 +370,16 @@ the permutation distance, establishing that these two problems are in fact equiv
 
 \subsection{Polynomial Time Algorithm }\label{subsec:n2}
 
+For max-flow, and more specifically maximum matching, this is not the case yet, although
+we do have some understanding of the complexity of the related problem of computing the max-flow between all pairs of
+nodes~\cite{AbboudKT20,KrauthgamerT18,AbboudGIKPTUW19}. So, even though our reductions don't tell us what is the best possible
+exponent in the running time, they do imply that it is the same as for maximum matching in a sparse bipartite graph.
+In particular, by plugging in the asymptotically fastest known algorithm~\cite{liu2020faster}, we obtain an $\ctO(n^{4/3+o(1)})$ time algorithm for computing
+the permutation distance between two trees on $n$ nodes. The main technical novelty in our reduction from permutation
+distance is that, even though the natural approach would result in multiple instances of weighted maximum bipartite matching,
+we manage to keep the graphs unweighted.
+
+
 We first run the folklore linear-time algorithm of~\cite{Aho} for determining if two rooted trees are isomorphic.
 Recall that this algorithm assigns a number from $\{1,2,\ldots,2n\}$ to every node of $\Tone$ and $\Ttwo$ so that the subtrees
 rooted at two nodes are isomorphic if and only if their numbers are equal.
@@ -368,10 +387,10 @@ The high-level idea is then to consider a weighted bipartite graph
 $G(u,v)$ for each $u,v\in [n]$ such that $\level_{\Tone}(u)=\level_{\Ttwo}(v)$ and $\Tone|u \equiv \Ttwo|v$.
 The vertices of $G(u,v)$ are $\children_{\Tone}(u)$ and $\children_{\Ttwo}(v)$, and there is
 an edge of weight $\gamma(u',v')$ between $u' \in \children_{\Tone}(u)$ and $v' \in \children_{\Ttwo}(v)$ if and only if
-$\Tone|u' \equiv \Ttwo|v'$ and $\gamma(u',v')>0$. 
+$\Tone|u' \equiv \Ttwo|v'$ and $\gamma(u',v')>0$.
 We call such graphs the \emph{distance graphs} for $\Tone$ and $\Ttwo$ and denote them collectively by $\cG(\Tone,\Ttwo)$. See Figure~\ref{fig:graphs}
  for an example.
- 
+
 The weights $\gamma(u,v)$ are computed as follows, with $\cM(G(u,v))$ denoting the weight of
 a (not necessarily perfect) maximum weight matching in $G(u,v)$, and $\Gamma:[n]\times[n]\rightarrow\{0,1\}$ being a function such that $\Gamma(u,v)=1$ if $u=v$ and $\Gamma(u,v)=0$ otherwise.
 \begin{equation}
@@ -387,7 +406,7 @@ The overall number of edges created in all graphs is $\cO(n^2)$. Indeed, for eac
 such that $\level_{\Tone}(u)=\level_{\Ttwo}(u)$ and $\Tone|u \equiv \Ttwo|u$,
 and for each pair of ancestors $z$ of $u$ in $\Tone$ and $w$ of $u$ in $\Ttwo$ such that $\level_{\Tone}(z)=\level_{\Ttwo}(w)$ and
 $\Tone|z \equiv \Ttwo|w$, we possibly add an edge $(z,w)$ to the graph $G(p_{\Tone}(z),p_{\Ttwo}(w))$.
-Since there are up to $n$ 
+Since there are up to $n$
 pairs of ancestors on the same level for each label, and the labels are $n$, there are $\cO(n^2)$ edges overall.
 
 We then start from the deepest level in both trees, and we move up level by level
@@ -436,8 +455,8 @@ then the permutation distance (thus $n-\gamma(u,v)$, by Lemma~\ref{lem:gamma}) i
 
 Otherwise, if $u$ and $v$ are internal vertices, and
 $T_1|u \equiv T_2|v$, then let $\mu$ be a bijective mapping from the
-nodes of $T_1|u$ to the nodes of $T_2|v$ maximizing $\conserved(\mu)$. 
-By the definition of $\gamma$ and the construction of $\mu$, $\gamma(u,v)=\sum_{z\in\children(u)}\gamma(z,\mu(z)) + \Gamma(u,v)$. 
+nodes of $T_1|u$ to the nodes of $T_2|v$ maximizing $\conserved(\mu)$.
+By the definition of $\gamma$ and the construction of $\mu$, $\gamma(u,v)=\sum_{z\in\children(u)}\gamma(z,\mu(z)) + \Gamma(u,v)$.
 By the inductive hypothesis, all values $\gamma(z,\mu(z))$ are correctly computed; since $\mu$ is the bijective mapping maximizing the conserved labels, no other mapping $\mu'$
 can achieve a larger value of $\sum_{z\in\children(u)}\gamma(z,\mu(z))$, and so $\mu(z)$ is determined by a maximum weight matching on $G(u,v)$.
 \end{proof}
@@ -452,7 +471,7 @@ and replacing maximum weight matching with maximum matching.
 We start by finding a heavy path decomposition of $\Tone$ and $\Ttwo$, with some extra care in resolving a tie if there are multiple children with subtrees of the same size, as follows.
 Recall that we already know which subtrees of $\Tone$ and $\Ttwo$ are isomorphic, as the algorithm of~\cite{Aho} assigns the same number from $\{1,2,\ldots,2n\}$ to nodes of $\Tone$ and $\Ttwo$ with isomorphic subtrees.
 For every $u,v\in [n]$ such that $\Tone|u \equiv \Ttwo|v$, we would like the heavy child $u'$ of $u$ in $\Tone$
-and $v'$ of $v$ in $\Ttwo$ to be such that $\Tone|u' \equiv \Ttwo|v'$. 
+and $v'$ of $v$ in $\Ttwo$ to be such that $\Tone|u' \equiv \Ttwo|v'$.
 This can be implemented in linear time: it suffices to group the
 nodes with isomorphic subtrees together, and then make the choice just once for every such group.
 
@@ -481,7 +500,7 @@ allow us to bound the total weight of non-special edges by $\cO(n\log n)$.
     \begin{subfigure}[height=2.5cm]{0.13\textwidth}
         \includegraphics[width=\linewidth]{Fig/G2aa.pdf}
     \end{subfigure}
-    
+
     \caption[Graphs of type 1 and type 3]{$G(a,a)$ (type 1), $G'(a,a)$, $G''(a,a)$ and $G(b,c)$ (type3) for the trees of Figure~\ref{fig:paths}. The special edge in each graph is dashed.}
     \label{fig:graphs}
 \end{figure}
@@ -514,8 +533,8 @@ The first step is to find all pairs of nodes that correspond to graphs of type 1
 in a dictionary $D$ implemented as a balanced search tree with $\cO(\log n)$ access time.
 The second step is to find the non-special edges of these graphs, and store them in a separate dictionary, also implemented as a balanced search tree with $\cO(\log n)$ access time.
 Note that the weights will be found at a later stage of the algorithm.
-We assume that both trees have been already decomposed into heavy paths, and we already know which subtrees are isomorphic. 
-This can be preprocessed in $\cO(n)$ time. 
+We assume that both trees have been already decomposed into heavy paths, and we already know which subtrees are isomorphic.
+This can be preprocessed in $\cO(n)$ time.
 
 \begin{lemma}
 All graphs of type 1 and 2 can be identified in $\cO(n\log^2 n)$ time.
@@ -525,12 +544,12 @@ All graphs of type 1 and 2 can be identified in $\cO(n\log^2 n)$ time.
 We consider every $u\in [n]$ such that $\level_{\Tone}(u)=\level_{\Ttwo}(u)$
 and $\Tone | u \equiv \Ttwo | u$ in two passes. In the first pass,
 we need to iterate over every ancestor $z$ of $u$ in $\Tone$
-and $w$ of $u$ in $\Ttwo$ such that $\level_{\Tone}(z)=\level_{\Ttwo}(w)$, $T_{1}|z \equiv T_{2}|w$ and either $\head_{\Tone}(z)=z$ or $\head_{\Ttwo}(w)=w$, 
-and if additionally $T_{1}|p_{T_{1}}(z) \equiv T_{2}|p_{T_{2}}(w)$ then designate $G(p_{T_{1}}(z),p_{T_{2}}(w))$ to be a graph of type 1 and insert it into $D$. 
+and $w$ of $u$ in $\Ttwo$ such that $\level_{\Tone}(z)=\level_{\Ttwo}(w)$, $T_{1}|z \equiv T_{2}|w$ and either $\head_{\Tone}(z)=z$ or $\head_{\Ttwo}(w)=w$,
+and if additionally $T_{1}|p_{T_{1}}(z) \equiv T_{2}|p_{T_{2}}(w)$ then designate $G(p_{T_{1}}(z),p_{T_{2}}(w))$ to be a graph of type 1 and insert it into $D$.
 As a non-special edge $(z,w)$ of a graph $G(p_{T_{1}}(z),p_{T_{2}}(w))$ is such that either $z$ or $w$ are not on the same heavy path as their parents, this correctly determines all graphs of type 1.
 
 To efficiently iterate over all such $z$ and $w$ given $u$,
-we assume that the nodes of every heavy path of a tree $T$ are stored in an array, so that, given any node $u\in T$, we are able to access the node that belongs to the same heavy path as $u$ and whose level is $\ell$ in constant time, if it exists. 
+we assume that the nodes of every heavy path of a tree $T$ are stored in an array, so that, given any node $u\in T$, we are able to access the node that belongs to the same heavy path as $u$ and whose level is $\ell$ in constant time, if it exists.
 We denote such operation $\access_{T}(u,\ell)$.
 Given two nodes $u\in\Tone$ and $v\in\Ttwo$ on the same level, the procedure below shows how to iterate over every ancestor $z$ of $u$ and $w$ of $v$ such that $\level_{\Tone}(z)=\level_{\Ttwo}(w)$ and either $\head_{\Tone}(z)=z$ or $\head_{\Ttwo}(w)=w$, in $\cO(\log n)$ time,
 implying that all graphs of type 1 can be identified in $\cO(n\log^{2}n)$ time.
@@ -538,7 +557,7 @@ implying that all graphs of type 1 can be identified in $\cO(n\log^{2}n)$ time.
 {
 \setlength{\interspacetitleruled}{0pt}%
 \setlength{\algotitleheightrule}{0pt}%
-\begin{algorithm}[]
+\begin{algorithm}[tb]
 \While{$u \neq \bot$ {\bf and} $v\neq \bot$}{
   \uIf{$ \level_{T_{1}}(\head_{T_{1}}(u)) < \level_{T_{2}}(\head_{T_{2}}(v)) $}{
     output $\access_{T_{1}}(u,\level_{T_{2}}(\head_{T_{2}}(v)))$ and $\head_{T_{2}}(v)$\;
@@ -622,7 +641,7 @@ of all edges belonging to graphs of type 1 and 2. By Lemma~\ref{lem:nonspecial} 
 weight of all non-special edges is $\cO(n\log n)$, but such bound doesn't hold for the special edges.
 Therefore, we proceed as follows. Let $u'$ be the heavy child of $u$ and $v'$ be the heavy child of $v$.
 We construct $G'(u,v)$ by removing the special edge from $G(u,v)$.
-We also construct $G''(u,v)$ from $G(u,v)$ by removing all the edges incident to $u'$ and $v'$ (see Figure~\ref{fig:graphs} for an example). 
+We also construct $G''(u,v)$ from $G(u,v)$ by removing all the edges incident to $u'$ and $v'$ (see Figure~\ref{fig:graphs} for an example).
 Equation~(\ref{eq:recursion}) can then be rewritten as follows:
 \begin{equation}
 \label{eq:weight}
@@ -664,7 +683,7 @@ graphs and extract the costs of their edges is $\cO(n\log^{2}n)$.
 Thus, the total running time is $\cO(n\log^{2}n)$ plus the time to compute the maximum weight matching in every graph of type 1
 and type 2. Let $N_{i}$ be the total weight of all non-special edges in the $i$-th of these graphs.
 By Lemma~\ref{lem:nonspecial}, $\sum_{i} N_{i} = \cO(n\log n)$.
-Additionally, $N_{i} \leq n$. 
+Additionally, $N_{i} \leq n$.
 Let $m_{i,j}$ be the number of edges in the $j$-th instance of unweighted bipartite matching for the $i$-th graph.
 By Lemma~\ref{lem:decomposition}, the overall time is hence $\sum_{i,j} f(m_{i,j})$, where
 $\sum_{i,j} m_{i,j} \leq  \sum_{i} N_{i} = \cO(n\log n)$ and $m_{i,j} \leq N_{i} \leq n$.
@@ -699,14 +718,14 @@ implement a single step of this transformation in constant time, and there are a
 
 We will now first construct two unlabelled trees and then explicitly assign appropriate labels to their nodes.
 Without loss of generality, let the nodes of the graph be $u_{1},u_{2},\ldots,u_{m}$ and $v_{1},v_{2},\ldots,v_{m}$.
-%and every edge connects some $u_{i}$ with some $v_{j}$. 
+%and every edge connects some $u_{i}$ with some $v_{j}$.
 In the first tree we create $m$ nodes, labelled with $u_{1},u_{2},\ldots,u_{m}$,
 connected to a common unlabelled root. In the second tree we do the same with nodes $v_{1},v_{2},\ldots,v_{m}$. Then, for every edge $(u_{i},v_{j})$ of the graph, we attach a new leaf  to $u_{i}$ in the first tree and to $v_{j}$ in the
-second tree, and assign the same label to both of them. Finally, we attach enough unlabelled leaves to every $u_{i}$ and $v_{j}$ to make their degrees all equal to 3. 
-To make both trees fully-labelled on the same set of labels, we further attach $1+m+3m-m=3m+1$ \emph{extra leaves} to the roots of both trees. 
+second tree, and assign the same label to both of them. Finally, we attach enough unlabelled leaves to every $u_{i}$ and $v_{j}$ to make their degrees all equal to 3.
+To make both trees fully-labelled on the same set of labels, we further attach $1+m+3m-m=3m+1$ \emph{extra leaves} to the roots of both trees.
 For every unlabelled leaf attached to $u_{1},u_{2},\ldots,u_{m}$ of the first tree, we choose an unlabelled extra leaf of the second tree, and assign the same label to both of them.
 We then assign the same label to the root of the first tree and an extra leaf of the second tree, and label the last $m$ extra leaves of the second tree with $u_{1},u_{2},\ldots,u_{m}$.
-We finally swap the trees and repeat the same procedure: see Figure~\ref{fig:reduction} for an example. 
+We finally swap the trees and repeat the same procedure: see Figure~\ref{fig:reduction} for an example.
 
 The permutation distance between the two trees is equal
 to the cardinality of the maximum matching. Indeed, the trees are clearly isomorphic; moreover, any isomorphism must match extra leaves with extra leaves, and every $u_{i}$ to a $v_{\pi(j)}$, for some permutation $\pi$ on $[m]$. The extra leaves do not
@@ -730,7 +749,7 @@ graph.
         \includegraphics[width=\linewidth]{Fig/reduction2.pdf}
         \vspace{-3mm}
     \end{subfigure}
-    
+
     \caption[Reduction from Bipartite Maximum Matching]{The two trees built for the graph on the left, according to Theorem~\ref{thm:frommatching}.}
     \label{fig:reduction}
 \end{figure}
@@ -941,7 +960,7 @@ following lemma connecting link-and-cut and rearrangement distance.
 Importantly, we note that Lemma \ref{lemma:apxbin} states that the
 link-and-cut distance algorithm provides a 4-approximation for
 the rearrangement distance when at least one of the trees involved is
-binary. 
+binary.
 We now show that we can compute the link-and-cut distance between
 two trees in linear time by showing that the family partition can be
 built in linear time.
@@ -1004,7 +1023,7 @@ shows that indeed $\Tone' \sim \Ttwo$, and so $\tilde{d}(\Tone,\Ttwo) \leq d(\To
 
 For the other direction, we use the assumption that $\Tone$ and $\Ttwo$ are anchored trees on $2n$ nodes:
 in both trees $r$ is the root and there are $n$ leaves $n+1,n+2,\ldots,2n$ attached to $r$.
-Observe that $\tilde d(\Tone,\Ttwo)<n$. We claim that an optimal sequence of cut and permutation operations 
+Observe that $\tilde d(\Tone,\Ttwo)<n$. We claim that an optimal sequence of cut and permutation operations
 doesn't permute $r$. Assume otherwise, then for every $u=n+1,n+2,\ldots,n$ either $u$
 is also permuted, or we have a cut operation $(u \dagger r)$, so the size of the sequence must be at least $n$.
 Now, let $s$ be an optimal sequence consisting of a permutation $\pi$ and then some cut operations,
@@ -1048,7 +1067,7 @@ To analyse each step of the algorithm we will use the following two structures, 
 of family partitions defined in~\ref{sec:preliminariestree}.
 
 
-\begin{definition}[family partition of two forests] 
+\begin{definition}[family partition of two forests]
 \label{def:family}
 Given two forests $\Fone$ and $\Ftwo$, their \emph{family partition}
 $P(\Fone,\Ftwo)$ is the set $\{ (a[i],b[i]) : a[i],b[i]\neq 0~\land~a[i] \neq b[i] \}$.
@@ -1118,7 +1137,7 @@ might decrease the size of the family partition by at most $2s$, where $s=|\{ u 
 Consider a cut operation $(v \dagger u)$. The only change to $a$ is that $a[v]$ becomes $0$,
 so indeed the size of the family partition might decrease by at most one.
 
-Now consider a permutation $\pi$. 
+Now consider a permutation $\pi$.
 %Recall that the family partition is defined as
 %\[ P=\{ (a[i], b[i]) : a[i] \neq 0~\land~b[i] \neq 0~\land~a[i] \neq b[i]\} . \]
 After applying $\pi$, an edge $(i,a[i])$ becomes $(\pi(i),\pi(a[i]))$, making $\pi(a[\pi^{-1}(i)])$ the parent of $i$.
@@ -1149,14 +1168,14 @@ otherwise, $P'$ contains all such pairs except possibly one. Overall, $|P'| \geq
         \caption{$\Fone^1$}
         \label{fone1}
     \end{subfigure}
-    ~~~~ %add desired spacing 
+    ~~~~ %add desired spacing
     \begin{subfigure}[b]{0.38\textwidth}
        \includegraphics[width=1\textwidth]{Fig/step2.pdf}
        \vspace{-3mm}
         \caption{$\Fone^2$}
         \label{fone2}
     \end{subfigure}
-  
+
     \begin{subfigure}[b]{0.38\textwidth}
        \includegraphics[width=1\textwidth]{Fig/step3.pdf}
       \vspace{-3mm}
@@ -1170,7 +1189,7 @@ otherwise, $P'$ contains all such pairs except possibly one. Overall, $|P'| \geq
         \caption{$\Fone^4$}
         \label{fone4}
     \end{subfigure}
-    
+
     \caption[The four steps of the approximation algorithm]{The forests obtained after Step 1 (\ref{fone1}), Step 2 (\ref{fone2}), Step 3 (\ref{fone3}) and Step 4 (\ref{fone4}).} \label{fig:forest}
 \end{figure}
 
@@ -1185,8 +1204,8 @@ We define the multiset $B(u)=\{b[v_{i}] : b[v_{i}]\neq 0 \}$ containing the pare
 the children of $u$ in $\Fone^{1}$.
 Recall that $\mode(B(u))$ is the most frequent element of $B(u)$ (ties are broken arbitrarily).
 We cut all edges $(v_{i},u)$ such that $b[v_{i}]\neq 0$ and $b[v_i]\neq \mode(B(u))$, and define, for each $u\in [n]$, its representative  $\rep(u)=\mode(B(u))$.
-Intuitively, $\rep(u)$ is the node that might be convenient to replace $u$ with using a permutation. 
-Roughly speaking, in this step we get rid of all of the children of $u$ that would be misplaced after permuting $u$ and $\rep(u)$, for each $u\in[n]$. The resulting forest $\Fone^2$ has the following property: for each $u\in [n]$, 
+Intuitively, $\rep(u)$ is the node that might be convenient to replace $u$ with using a permutation.
+Roughly speaking, in this step we get rid of all of the children of $u$ that would be misplaced after permuting $u$ and $\rep(u)$, for each $u\in[n]$. The resulting forest $\Fone^2$ has the following property: for each $u\in [n]$,
 for any child $v$ of $u$ in $\Fone^{2}$, either $b[v]=0$ or $b[v]=\rep(u)$, i.e., the children of each node $u$ of $\Fone^2$ have all the same parent $\rep(u)$ in $\Ftwo$.
 
 To bound the number of cuts in this step we first need a technical lemma relating the rearrangement distance of two
@@ -1248,12 +1267,12 @@ If after Step 2 all of the children of a node $u$ of $\Fone$ have the same paren
 In this case, it is not clear how to choose whether to replace $u$ or $v$ with $\rep(u)=\rep(v)$ in a permutation.
 This step aims at resolving this situation by cutting the ambiguous edges.
 
-Consider thus $u\in [n]$, and let $\children_{\Ftwo}(u)=\{v_{1},v_{2},\ldots,v_{k}\}$. 
+Consider thus $u\in [n]$, and let $\children_{\Ftwo}(u)=\{v_{1},v_{2},\ldots,v_{k}\}$.
 We define the multiset
 $B'(u)=\{ a[v_{i}] : a[v_{i}] \neq 0 \}$ containing the parents in $\Fone^{2}$ of the children of $u$ in $\Ftwo$. We
 cut all edges $(v_{i},a[v_{i}])$ such that $a[v_{i}]\neq 0$ and $a[v_{i}]\neq \mode(B'(u))$, breaking ties arbitrarily, and define $\rep'(u)=\mode(B'(u))$.
 The resulting forest $\Fone^{3}$ has
-the following property: for each $u\in [n]$, 
+the following property: for each $u\in [n]$,
 for any child $v$ of $u$ in $\Ftwo$, we have $a[v])=\bot$ or $a[v]=\rep'(u)$.
 
 We observe that the number of cuts performed by the above procedure is the same as if we had applied
@@ -1266,9 +1285,9 @@ $\alg(3)\le 2\tilde{d}(\Fone^2,\Ftwo)$.
 
 \begin{example}
 \label{ex:step3}
-Consider again $\Fone$ and $\Ftwo$ of Figure~\ref{fig:trees}. 
+Consider again $\Fone$ and $\Ftwo$ of Figure~\ref{fig:trees}.
 We have $B'(3)=\{2,2,7,7,7\}$, we thus cut $(4\dagger2)$ and $(5\dagger2)$.
-The resulting forest $\Fone^3$ is shown in Figure~\ref{fone3}. 
+The resulting forest $\Fone^3$ is shown in Figure~\ref{fone3}.
 \end{example}
 
 \paragraph{Step 4}
@@ -1292,7 +1311,7 @@ $|\pi| \leq 2|P(\Fone^{3},\Ftwo)| \leq 4\tilde{d}(\Fone^{3},\Ftwo)$ as required.
 
 To see that there indeed exists such $\pi$, observe that due to Property~\ref{prop:two}
 there cannot be two requirements $\pi(x)=y$ and $\pi(x)=y'$ with $y\neq y'$.
-Similarly, due to Property~\ref{prop:three} there cannot be two requirements $\pi(x)=y$ and $\pi(x')=y$ with $x\neq x'$. 
+Similarly, due to Property~\ref{prop:three} there cannot be two requirements $\pi(x)=y$ and $\pi(x')=y$ with $x\neq x'$.
 Thinking of the requirements as a graph, the in- and out-degree of every node is hence at most 1, so we can add extra edges to obtain a collection of cycles defining a permutation $\pi$ that does not perturb the nodes not participating in any requirement.
 
 \begin{example}
@@ -1338,7 +1357,7 @@ rearrangement distance $d(T_1,T_2)$ is at most $k$.
             \ForEach{tree $T$ that can be obtained from $T^*$ with a sequence $S_{\ell}$ of at most $k - k_1$ link-and-cut operations}{%
                 \If{$T = T_2$}{%
                     \Return the concatenation $S_{\Pi} S_{\ell}$
-                }       
+                }
             }
         }
     }
