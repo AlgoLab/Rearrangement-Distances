@@ -86,6 +86,14 @@
 \newtheorem{problem}{Problem}
 \newtheorem{remark}{Remark}
 
+\newcommand{\notaestesa}[2]{%
+  \marginpar{\color{red!75!black}\textbf{\texttimes}}%
+  {\color{red!75!black}%
+    [\,\textbullet\,\textsf{\textbf{#1:}} %
+    \textsf{\footnotesize#2}\,\textbullet\,]}%
+}
+\newcommand{\gdv}[1]{\notaestesa{GDV}{#1:}}
+
 \title{Rearrangement Distances}
 \author{giuliabernardini.morg }
 \date{November 2020}
@@ -166,114 +174,111 @@ Recall that two trees $\Tone$ and $\Ttwo$ are isomorphic if and only if we can r
 trees identical after disregarding the labels.
 
 
-The \emph{permutation distance} $d_{\pi}(T_1, T_2)$ between two isomorphic trees is the smallest size $|\pi|$ of a permutation $\pi$ that transforms $\Tone$ into $\Ttwo$.
-
-
-
-The size of a sequence of link-and-cut and permutation operations is the sum of the number of link-and-cut
-operations and the total size of all permutations.
-The \emph{rearrangement distance} $d(\Tone,\Ttwo)$ between two (not necessarily isomorphic) trees with identical roots is the smallest size of any sequence of link-and-cut and permutation operations that, without permuting the root, transform $\Tone$
-into $\Ttwo$.
-
-
-Let $[n]=\{1,2,\ldots,n\}$.
-We consider rooted trees and forests on nodes labelled with distinct labels from $[n]$, and identify nodes with their
-labels.
-The parent of $u$ in $F$ is denoted $p_{F}(u)$, and we use the convention
-that $p_{F}(u)=\bot$ when $u$ is a root in $F$. $F|u$ denotes the subtree of $F$ rooted at $u$,
+Given a forest $F$, the parent of $u$ in $F$ is denoted $p_{F}(u)$, and we use the convention
+that $p_{F}(u)=\bot$ when $u$ is a root in $F$. Moreover, $F|u$ denotes the subtree of $F$ rooted at $u$,
 $\children_{F}(u)$ stands for the set of children of a node $u$ in $F$, and $\level_{F}(u)$ is the level of $u$ in $F$
-(with the roots being on level 0).
+(the roots have level $0$).
 
-Two trees $\Tone$ and $\Ttwo$ are isomorphic, denoted $\Tone \equiv \Ttwo$, if and only if there exists a bijection $\mu$ between their nodes
-such that, for every $u\in[n]$ with $p_{T_{1}}(u)\neq\bot$, it holds that $\mu(p_{T_{1}}(u))=p_{T_{2}}(\mu(u))$, implying in particular that $\mu$ maps the root of $\Tone$ to the root of $\Ttwo$.
-Let $\cI(\Tone,\Ttwo)$ denote the set of all such bijections $\mu$.
-Given two isomorphic trees $\Tone$ and $\Ttwo$, we seek a permutation $\pi$ with the smallest possible size that
-transforms $\Tone$ into $\Ttwo$. This is equivalent to finding $\mu\in\cI(\Tone,\Ttwo)$ that maximises
-the number of conserved nodes $\conserved(\mu)=\{ u :  u = \mu(u) \}$,
-as these two values sum up to $n$.
+% Two trees $\Tone$ and $\Ttwo$ are \emph{topologically isomorphic}, denoted $\Tone \approx \Ttwo$, if and only if there exists a bijection $\mu$ between their nodes
+% such that, for every vertex $v$ of $T_1$, $|\children_{T_1}(v)| = |\children_{T_2}(\mu(v))|$.
+Two trees $\Tone$ and $\Ttwo$ are  isomorphic, denoted $\Tone \equiv \Ttwo$, if and only if there exists a bijection $\mu$ between their nodes
+such that, for every vertex $u$ of $T_1$,  $\mu(p_{T_{1}}(u))=p_{T_{2}}(\mu(u))$.
+Notice that, by this definition, $\mu$ maps the root of $\Tone$ to the root of $\Ttwo$.
+% Let $\cI(\Tone,\Ttwo)$ denote the set of all such bijections $\mu$.
+% Given two isomorphic trees $\Tone$ and $\Ttwo$, we seek a permutation $\pi$ with the smallest possible size that
+% transforms $\Tone$ into $\Ttwo$. This is equivalent to finding $\mu\in\cI(\Tone,\Ttwo)$ that maximises
+% the number of conserved nodes $\conserved(\mu)=\{ u :  u = \mu(u) \}$,
+% as these two values sum up to $n$.
 
 We now give the following notions of \emph{distance} between trees
 $T_1$ and $T_2$ labelled by $[n]$.
-Unless otherwise stated, throughout this paper we will assume that the roots of $\Tone$ and $\Ttwo$ are identical, and cannot participate in any permutation operation.
-%
-\begin{definition}[link-and-cut distance]
-  \label{definition:edge}
-  The \emph{link-and-cut distance} $d_{\ell}(T_1,T_2)$ is the length
-  of the shortest sequence of link-and-cut operations which transforms
-  $T_1$ into $T_2$.
+Unless otherwise stated, throughout this paper we will assume that the roots of $\Tone$ and $\Ttwo$ have the same label.
+
+\begin{definition}[Distances]
+  \label{definition:edge}\label{definition:distances}
+Let $T_1$ and $T_2$ be two trees labeled by the set $[n]$.
+The \emph{link-and-cut distance} $d_{\ell}(T_1,T_2)$ is the length
+of the shortest sequence of link-and-cut operations which transforms
+$T_1$ into $T_2$.
+\label{definition:rearrangment}
+The \emph{rearrangement distance} $d(T_1,T_2)$ is the smallest size of any
+sequence of link-and-cut and permutation operations that transforms $T_1$ into $T_2$.
+\label{definition:permutation}
+If $T_1$ and $T_2$ are isomorphic, then the \emph{permutation distance} $d_{\pi}(T_1, T_2)$ is the size
+$|\pi|$ of the smallest permutation $\pi$ that transforms $T_1$ into
+$T_2$.
 \end{definition}
+
+
+%
 %
 The following Lemma ensures that the definition of link-and-cut
 distance is well posed.
 \begin{lemma}
 \label{lemma:wellposed}
-Given trees $T_1$ and $T_2$ each labelled by $[n]$, there always
+Given two trees $T_1$ and $T_2$ each labelled by $[n]$, there
 exists a sequence of link-and-cut operations that transforms $T_1$
 into $T_2$.
 \end{lemma}
 %
 \begin{proof}
-For any node $v$, $p_{T_1}(v)=u$, such that $p_{T_2}(v)=w$ and $w$ is
-a descendant of $v$ in $T_1$ --- and thus the operation
-$\edge{v}{u}{w}$ is not directly applicable --- we prove that there
+  In this proof we will exploit the fact that no two nodes of a tree share the same label by using a label to denote a node --- we will make the tree explicit when necessary.
+
+
+  Let $v$ be a node of $T_1$ such that $\lambda(p_{T_1}(v)) \neq \lambda(p_{T_2}(v))$ and no proper ancestor of $v$ in $T_1$ has such a property --- if no such node $v$ exists, then $T_1$ and $T_2$ are isomorphic.
+  Let $u$ and $w$ be respectively the parent of $v$ in $T_1$ (resp. $T_2$), that is $p_{T_1}(v)=u$ and $p_{T_2}(v)=w$.
+
+  If $w$ is not a descendant of $v$ in $T_1$, we can apply the $\edge{v}{u}{w}$ operation, strictly decreasing the number of vertices $v$ such that $\lambda(p_{T_1}(v)) \neq \lambda(p_{T_2}(v))$, therefore we can recurse on such a tree.
+
+
+  If $w$ is a descendant of $v$ in $T_1$,  we can prove that there
 exists a node $z$ on the path from $v$ to $w$ in $T_1$ (including $w$)
-such that $p_{T_2}(z)$ is not a descendant of $v$ in $T_2$ nor a
-descendant of $z$ in $T_1$.  This implies that after applying the
-valid operation $\edge{z}{p_{T_1}(z)}{p_{T_2}(z)}$, the operation
-$\edge{v}{u}{w}$ becomes valid too.  There is always such a node $z$
-because, should it not exist, $w$ would be a descendant of $v$ also in
-$T_2$, giving rise to the cycle $(w \rightarrow v \rightarrow \cdots
-\rightarrow w)$ and thus contradicting the fact that $T_2$ is a tree.
+such that $p_{T_2}(z)$ is not a descendant of $v$ in $T_2$ and nor a
+descendant of $z$ in $T_1$. In this case we can apply the sequence of two operations $\edge{z}{p_{T_1}(z)}{p
+_{T_2}(z)}$ and $\edge{v}{u}{w}$, whose
+final result is a tree with fewer vertices $v$ such that $\lambda(p_{T_1}(v)) \neq \lambda(p_{T_2}(v))$. Just as before, we can recurse on such a tree.
+
+Assume to the contrary that it does not exist a node $z$ on the path from $v$ to $w$ in $T_1$ such that $p_{T_2}(z)$ is not a descendant of $v$ in $T_2$ and nor
+descendant of $z$ in $T_1$.
+Then $w$ is a descendant of $v$ also in
+$T_2$\gdv{Why?}, contradicting the fact that $w$ is the parent of $v$ in $T_2$.
 \end{proof}
 
-\begin{definition}[permutation distance]
-  \label{definition:permutation}
-  The \emph{permutation distance} $d_{\pi}(T_1, T_2)$ is the size
-  $|\pi|$ of the smallest permutation $\pi$ that transforms $T_1$ into
-  $T_2$.
-\end{definition}
-
-
-\begin{definition}[rearrangement distance]
-  \label{definition:rearrangment}
-  The \emph{rearrangement distance} $d(T_1,T_2)$ is the smallest size of any
-  sequence of link-and-cut and permutation operations that transforms $T_1$ into $T_2$.
-\end{definition}
 
 Clearly, the permutation distance $d_{\pi}(T_1,T_2)$ is defined only
 when $T_1$ and $T_2$ are isomorphic, and it is evidently well
 posed. As a direct consequence of this and
 Lemma~\ref{lemma:wellposed}, the definition of rearrangement distance
-is also well posed.  Moreover, since these operations are invertible,
-all the above distance measures are symmetric, and they satisfy by
-definition the triangle inequality: consider, e.g., the rearrangement
-distance. Given $T_1$, $T_2$ and $T_3$ labelled by the same set of
-labels, let $\cS_{12}$ be a sequence that transforms $T_1$ into $T_2$
-such that $|\cS_{12}|=d(T_1,T_2)$, $\cS_{23}$ a sequence that
-transforms $T_2$ into $T_3$ with $|\cS_{23}|=d(T_2,T_3)$, $\cS_{13}$ a
-sequence that transforms $T_1$ into $T_3$ and $|\cS_{13}|=d(T_1,T_3)$.
-It is evident that the concatenation $\cS_{12} \cS_{13}$ of $\cS_{12}$
-and $\cS_{23}$ is a sequence that transforms $T_1$ into $T_3$, and by
-Definition~\ref{definition:rearrangment} its size is larger or equal to
-$d(T_1,T_3)$: thus $d(T_1,T_2) + d(T_2,T_3) \ge |\cS_{12} \cS_{23}|\ge
-d(T_1,T_3)$.  A similar argument shows that the triangular inequality
-also holds for the link-and-cut distance and the permutation distance.
+is also well posed.  Since these operations are invertible,
+all the above distance measures are symmetric. Moreover, they satisfy by
+definition the triangle inequality.
+% : consider, e.g., the rearrangement
+% distance. Given $T_1$, $T_2$ and $T_3$ labelled by the same set of
+% labels, let $\cS_{12}$ be a sequence that transforms $T_1$ into $T_2$
+% such that $|\cS_{12}|=d(T_1,T_2)$, $\cS_{23}$ a sequence that
+% transforms $T_2$ into $T_3$ with $|\cS_{23}|=d(T_2,T_3)$, $\cS_{13}$ a
+% sequence that transforms $T_1$ into $T_3$ and $|\cS_{13}|=d(T_1,T_3)$.
+% It is evident that the concatenation $\cS_{12} \cS_{13}$ of $\cS_{12}$
+% and $\cS_{23}$ is a sequence that transforms $T_1$ into $T_3$, and by
+% Definition~\ref{definition:rearrangment} its size is larger or equal to
+% $d(T_1,T_3)$: thus $d(T_1,T_2) + d(T_2,T_3) \ge |\cS_{12} \cS_{23}|\ge
+% d(T_1,T_3)$.  A similar argument shows that the triangular inequality
+% also holds for the link-and-cut distance and the permutation distance.
 
 We next define two structures that capture two fundamental characteristics of the trees to compare.
 
-\begin{definition}[active set]
-  \label{definition:active}
-  Given trees $T_1$ and $T_2$, we call
-  \emph{active} the subset $\cX \subseteq [n]$ of labels which have
-  different parents in $T_1$ and $T_2$, i.e., $v \in \cX$ iff
-  $p_{T_1}(v) \ne p_{T_2}(v)$.
-\end{definition}
+% \begin{definition}[active set]
+%   \label{definition:active}
+%   Given trees $T_1$ and $T_2$, we call
+%   \emph{active} the subset $\cX \subseteq [n]$ of labels which have
+%   different parents in $T_1$ and $T_2$, i.e., $v \in \cX$ iff
+%   $p_{T_1}(v) \ne p_{T_2}(v)$.
+% \end{definition}
 
-Given trees $T_1$ and $T_2$, for each vertex
-$v$ of the active set $\cX$, we can associate with $v$ the pair
-$(p_{T_1}(v),p_{T_2}(v))$ of the parents of $v$ in the two trees.  Let
-$\cP_{(u,w)}$ be the set $\{v ~:~ p_{T_1}(v) = u, ~ p_{T_2}(v) = w\}$: since each vertex has exactly one parent in each tree, each vertex
-$v\in \cX$ belongs to one and only one set $\cP_{(u,w)}$.  This fact is
+Given two trees $T_1$ and $T_2$, we can associate with $v$ the pair
+$(p_{T_1}(v),p_{T_2}(v))$ of the parents of $v$ in the two trees.  Given a pair of distinct nodes $u$ and $w$, we define
+$\cP_{(u,w)}$ as the set $\{v ~:~ p_{T_1}(v) = u, ~ p_{T_2}(v) = w\}$: since each vertex different from the root has exactly one parent in each tree, each vertex
+$v\in \cX$ belongs to at most one set $\cP_{(u,w)}$.  This fact is
 formalized in the following definition and illustrated in
 Example~\ref{ex:partition}.
 
@@ -281,17 +286,13 @@ Example~\ref{ex:partition}.
   \label{definition:partition}
   Let trees $T_1$ and $T_2$ each be labelled by $[n]$: for each vertex
   $v \in \cX$ we denote the set $\cP_{(u,w)} = \{v ~:~ p_{T_1}(v) = u,
-  ~ p_{T_2}(v) = w\}$.  Then $\cP$ is the partition of set $\cX$ into
-  the nonempty sets $\cP_{(u,w)}$, $u,w \in V$.  Partition $\cP$ is
-  called the \emph{family partition} of the active set $\cX$, and we
-  denote its \emph{size} $|\cP|$ as the number of different
-  (non-empty) subsets $\cP_{(u,w)}$ it is composed of.
+  ~ p_{T_2}(v) = w\}$.  Then $\cP$, called \emph{family partition}, is the collection of the nonempty sets $\cP_{(u,w)}$, $u,w \in V$ such that $u\neq w$.
 \end{definition}
 
 \begin{example}
   \label{ex:partition}
-  Consider $T_1$ and $T_2$ of Figure~\ref{fig:dist}. The active set is
-  $\cX=\{4,5,6,10\}$.  The family partition is composed of the
+  Consider $T_1$ and $T_2$ of Figure~\ref{fig:dist}.
+  The family partition is composed of the
   following sets: $\cP_{(2,3)}=\{4,5,6\}$, $\cP_{(3,2)}=\{10\}$.
 \end{example}
 
@@ -311,21 +312,19 @@ $\cP$ by ordering the set of operations it encodes with respect to a
 \emph{depth-first traversal} (DFT) of $T_1$:
 $\edge{u}{p_{T_1}(u)}{p_{T_2}(u)}$ precedes
 $\edge{v}{p_{T_1}(v)}{p_{T_2}(v)}$ if $u$ precedes $v$ in a DFT of
-$T_1$. Hence $d_{\ell}(T_1,T_2)=|\cX|$, i.e., the link-and-cut distance
-is equal to the cardinality of the active set, of which $\cP$ is a
-partition.
+$T_1$. Hence the link-and-cut distance $d_{\ell}(T_1,T_2)$
+is equal to number of nodes that are in some set of the family partition  $\cP$.
 
-
-In Section~\ref{sec:approxtree}, for ease of presentation, instead of the link-and-cut operation we will work with the cut operation, defined as follows:
+In Section~\ref{sec:approxtree}, for ease of presentation, in addition to the link-and-cut operation we will also work with the cut operation, defined as follows:
 \begin{itemize}
 \item \textbf{cut operation}: let $u,v$ be two nodes such that $v$ is a child of $u$. The cut operation
-$(v\dagger u)$ removes the edge $(v,u)$, effectively making $v$ a root.
+$(v\dagger u)$ removes the edge $(v,u)$, effectively making $v$ a root and $u$ a leaf.
 \end{itemize}
 The size of a sequence of cut and permutation operations is defined similarly as for a sequence
 of link-and-cut and permutation operations.
 Since a permutation operation is essentially just renaming the nodes, we can assume
 that all permutation operations precede all link-and-cut (or cut) operations, or vice versa.
-Furthermore, multiple consecutive permutation operations can be replaced by a single permutation operation
+Furthermore, consecutive permutation operations that are not pairwise disjoint can be replaced by a single permutation operation
 without increasing the total size.
 
 This leads to the notion of rearrangement distance between two forests $\Fone$ and $\Ftwo$.
