@@ -53,8 +53,8 @@
 \newcommand{\cO}{\mathcal{O}}
 \newcommand{\cT}{\mathcal{T}}
 \newcommand{\cC}{\mathcal{C}}
-\newcommand{\Tone}{T_1}
-\newcommand{\Ttwo}{T_2}
+\newcommand{\Tone}{\ensuremath{T_1}}
+\newcommand{\Ttwo}{\ensuremath{T_2}}
 \newcommand{\Fone}{F_1}
 \newcommand{\Ftwo}{F_2}
 \newcommand{\ctO}{\tilde{\mathcal{O}}}
@@ -274,7 +274,6 @@ We next define two structures that capture two fundamental characteristics of th
 %   different parents in $T_1$ and $T_2$, i.e., $v \in \cX$ iff
 %   $p_{T_1}(v) \ne p_{T_2}(v)$.
 % \end{definition}
-P
 Given two trees $T_1$ and $T_2$, we can associate with $v$ the pair
 $(p_{T_1}(v),p_{T_2}(v))$ of the parents of $v$ in the two trees.  Given a pair of distinct nodes $u$ and $w$, we define
 $\cP_{(u,w)}$ as the set $\{v ~:~ p_{T_1}(v) = u, ~ p_{T_2}(v) = w\}$: since each vertex different from the root has exactly one parent in each tree, each vertex
@@ -301,8 +300,9 @@ Example~\ref{ex:partition}.
    \includegraphics[width=0.95\linewidth]{Fig/rearrangement.pdf}
     \caption[Example of rearrangement distance between two trees]{Trees $\Tone$ and $\Ttwo$ labelled by $[10]$. The link-and-cut distance $d_\ell(\Tone,\Ttwo)$ is 4, given, for example, by the sequence $\edge{4}{2}{3}$, $\edge{5}{2}{3}$, $\edge{6}{2}{3}$, $\edge{10}{3}{2}$. The rearrangement distance is 3, given, for example, by the sequence $(2~3),\edge{7}{3}{2}$.}
     \label{fig:dist}
-\end{figure}
+  \end{figure}
 
+  bthm
 Note that the family partition encodes the elements of any shortest
 sequence of link-and-cut operations for transforming $T_1$ into $T_2$:
 $v \in \cP_{(u,w)}$ corresponds to operation $\edge{v}{u}{w}$. It is
@@ -754,8 +754,7 @@ graph.
 \end{figure}
 
 \section{Rearrangement Distance}\label{sec:rearrangement}
-We first show that deciding the rearrangement distance between two trees is NP-hard.
-We show this by reduction from 3-dimensional
+We first show that deciding the rearrangement distance between two trees is NP-hard, via a reduction from 3-dimensional
 matching, one of Karp's 21 NP-complete
 problems~\cite{karp1972reducibility}.
 
@@ -767,8 +766,7 @@ $\cM \subseteq \cT$ such that for every two triples $(a,b,c) \in \cM$,
 $(a',b',c') \in \cM$, it follows that $a \neq a'$, $b \neq b'$ and
 $c \neq c'$, that is, all triples of $\cM$ are pairwise disjoint.  It
 is then NP-hard to decide for a given $k$ if there is a matching $\cM$
-of size $k$~\cite{karp1972reducibility}.  It has been proved that
-the problem remains NP-hard even in the case of 3-bounded 1-common
+of size $k$~\cite{karp1972reducibility}, even in the case of 3-bounded 1-common
 3-dimensional matching, which is a restriction of the problem where
 the number of occurrences of an element in the triples is at most 3,
 and each pair of triples has at most one element in
@@ -777,7 +775,7 @@ following structure in this proof.
 
 \begin{definition}[movements graph]
   \label{definition:movements}
-  Given trees $T_1$ and $T_2$, the
+  Given two trees $T_1$ and $T_2$, the
   \emph{movements graph} $G$ has an edge for every element
   $\cP_{(u,w)}$ of the family partition $\cP$ of $T_1$ and $T_2$, that
   is, $E_G = \{ (u,w) ~:~ \cP_{(u,w)} \in \cP \}$, while its vertex
@@ -809,14 +807,14 @@ We now prove that computing the rearrangement distance is NP-hard.
   We construct two trees $\Tone$ and $\Ttwo$ each with $|A| + |B| +
   |C| + 6m + 2$ vertices, for which the rearrangement distance
   $d(\Tone, \Ttwo) \leq 3n + 6(m-n)$ if and only if $H$ has a
-  3-dimensional matching of size $n$.
+  3-dimensional matching of size $n$.\gdv{Figure 5 left tree is wrong. The leaves under $a'$ must be labeled by $t$, not $s$}
 
 
-  Consider such an instance $H$ of 3-dimensional matching as above.
+  Consider such an instance $H$ of 3-dimensional matching.
   In the construction, the trees $\Tone$ and $\Ttwo$ each have a root
   vertex $r$, and a vertex for every element of $A$, $B$ and $C$ ---
-  each of which have $r$ as the parent.  To each $v \in \{a,b,c\}$ in
-  $\Tone$ and triple $t$, we add a set $S_{t,v} = \{t_v^1, t_v^2\}$ of
+  each of which have $r$ as the parent.  
+  For each triple $t=(a,b,c)\in \mathcal{T}$ and for each $v \in \{a,b,c\}$, we add a set $S_{t,v} = \{t_v^1, t_v^2\}$ of
   two (uniquely labelled) children.  In $\Ttwo$, we add the sets
   $S_{t,v}$ of two children to each of these three vertices, but
   cyclically shifted, with respect to $\Tone$, i.e., we add $S_{t,a}$
@@ -826,47 +824,62 @@ We now prove that computing the rearrangement distance is NP-hard.
   Figure~\ref{fig:reductionNP}.  Now, observe that the movements graph
   $G$ will have cycles of length $3$ corresponding to each triple and
   two cycles may share one common vertex $v$ if the triples share
-  element $v$. A sequence of
-  operations of total size $d(\Tone,\Ttwo)$ will consist of a
-  permutation followed by a sequence of link-and-cut operations.
-  Observe that any permutation involves for each cycle $\cC_t$ an
-  edge, two edges or all three edges.  Now, the rearrangement distance
-  aims to solve cycles in the movements graph in the sense that after
-  the operations, the movements graph has no edges.  Observe that
-  given a cycle $\cC_t$ of the movements graph $G$, then the minimum
-  cost rearrangement to solve $\cC_t$ consists of applying a
-  permutation of size $3$ involving the three vertices of the cycle,
-  thus of total cost $3$.  Observe that two cycles sharing a common
-  vertex cannot both be solved by a permutation that is a cyclic shift
-  of the vertices of the cycle, that is they cannot be both solved
-  with cost $3$.  Moreover, permutations of vertices cannot solve more
-  than one vertex of a cycle $\cC_t$ if it is not a cyclic shift of
-  the vertices of $\cC_t$, as cycles do not share edges.  In case of a
-  cyclic shift of two vertices of $\cC_t$, (1) a permutation of size
-  $2$ and then four link-and-cut operations are required. If instead
-  (2) at most a single vertex of $\cC_t$ is involved in a permutation,
-  then six link-and-cut operations are required.  We now detail how
-  this implies that $d(\Tone, \Ttwo) \leq 3n + 6(m- n)$ if and only if
-  $H$ has a 3-dimensional matching of size $n$.
+  element $v$. 
+  
+  By construction of the trees \Tone{} and \Ttwo, we can assume that each permutation involves only nodes of the universe set or only nodes representing triples of $\mathcal{T}$.
+  Moreover, no node of the universe set is involved in a link-and-cut operation, since changing its parent would mean that the new parent is a node representing a triple, which is not optimal.
+  Finally, any permutation of nodes representing triples can be replaced by a sequence of link-and-cut operation with the same costs.
+  The overall effect is that we can restrict ourselves on sequence of operations starting with permutations of nodes representing the universe set and link-and-cut operations on nodes representing triples.
 
-  ($\Rightarrow$) Assume that $d(\Tone, \Ttwo) \leq 3n + 6(m - n)$.
-  By the above observation on how cycles of the movements graph $G$
-  are solved by the sequence of permutations, cases (1) and (2) for
-  solving cycles have the same cost equal to $6$.  Thus the only
-  possible way to have a rearrangement distance less than or equal to
-  $3n + 6 (m- n) $ is by taking $n$ disjoint cycles solved by the
-  permutation operation of cost $3$. This implies a 3-dimensional
-  matching of size $n$.
+  Let $M$ be a 3-dimensional matching of $H$.
+  Then for each triple $t=(a,b,c)\in M$ apply the permutation $(c,b,a)$.
+  After this permutation, each node node $S_{t,v}$ (with $v\in \{a,b,c\}$) has $v$ has its new parent.
+  Since $M$ is a matching, those permutations are independent.
+  For each triple $t=(a,b,c)\notin M$, apply a link-and-cut operation to each node in $S_{t,v}$ (with $v\in \{a,b,c\}$) so that its new parent is $v$.
+  It is immediate to notice that the resulting tree is exactly $T_2$ and that the overall cost of the operations is $3n + 6(m - n)$.\gdv{Requires inverting \Tone and \Ttwo}
+  
+  Let us now consider a sequence of $p$ permutation followed by $q$ link-and-cut operations.
+  We will show how to obtain a sequence of permutations followed by link-and-cuts that is not more expensive than the first sequence and where the permutations have cost 3, are disjoint, and each permutations involves exactly the elements of a triple of $\mathcal{T}$. By the first part of the proof, it suffices to prove the NP-hardness.
 
-  ($\Leftarrow$) Now, suppose that $H$ has a 3-dimensional matching
-  $\cM \subseteq \cT$ of size $n$.  This implies that there are $n$
-  triples that are disjoint and thus the movements graph $G$ has $n$
-  disjoint cycles. By solving each cycle with a permutation of size
-  $3$, $m- n$ cycles are left in the movements graph. The remaining
-  cycles, in the worst case, share common vertices with the cycles
-  solved by the permutations, and thus they can be solved with a cost
-  that is $6$ in the worst case.  Thus we obtain that $d(\Tone, \Ttwo)
-  \leq 3n + 6(m - n)$, completing the proof.
+First of all, no node is moved in two separate link-and-cut operations.
+Moreover, either all nodes in a set $S_{t,v}$ is moved with link-and-cut operations, or none of them is moved.
+
+Let $X$ be the set of $S_{t,v}$ such that no node is moved with link-and cut operations.
+By the construction of our reduction and the fact that the instance is 3-bounded and 1-common, the triple $t$ of each set $S_{t,v}$ of $X$ appears in exactly one permutation. Let $P$ be the set of such triples
+Hence replacing the permutation with a sequence of permutations, one for each triple in $P$, results in a sequence where the permutations have cost 3, are disjoint, and each permutations involves exactly the elements of a triple of $\mathcal{T}$.
+
+We have to modify the link-and-cut operations involving the sets that are not in $X$, but no new operation is added, completing the proof.\gdv{I don't like the proof, but it shows clearly that cycles of the movement graphs corresponds to triples in the instance. Hence we can remove the movement graph.g}
+%
+  % operations of total size $d(\Tone,\Ttwo)$ will consist of a
+  % permutation followed by a sequence of link-and-cut operations.
+  % Observe that any permutation involves for each cycle $\cC_t$ an
+  % edge, two edges or all three edges.  Now, the rearrangement distance
+  % aims to solve cycles in the movements graph in the sense that after
+  % the operations, the movements graph has no edges.  Observe that
+  % given a cycle $\cC_t$ of the movements graph $G$, then the minimum
+  % cost rearrangement to solve $\cC_t$ consists of applying a
+  % permutation of size $3$ involving the three vertices of the cycle,
+  % thus of total cost $3$.  Observe that two cycles sharing a common
+  % vertex cannot both be solved by a permutation that is a cyclic shift
+  % of the vertices of the cycle, that is they cannot be both solved
+  % with cost $3$.  Moreover, permutations of vertices cannot solve more
+  % than one vertex of a cycle $\cC_t$ if it is not a cyclic shift of
+  % the vertices of $\cC_t$, as cycles do not share edges.  In case of a
+  % cyclic shift of two vertices of $\cC_t$, (1) a permutation of size
+  % $2$ and then four link-and-cut operations are required. If instead
+  % (2) at most a single vertex of $\cC_t$ is involved in a permutation,
+  % then six link-and-cut operations are required.  We now detail how
+  % this implies that $d(\Tone, \Ttwo) \leq 3n + 6(m- n)$ if and only if
+  % $H$ has a 3-dimensional matching of size $n$.
+%
+  % ($\Rightarrow$) Assume that $d(\Tone, \Ttwo) \leq 3n + 6(m - n)$.
+  % By the above observation on how cycles of the movements graph $G$
+  % are solved by the sequence of permutations, cases (1) and (2) for
+  % solving cycles have the same cost equal to $6$.  Thus the only
+  % possible way to have a rearrangement distance less than or equal to
+  % $3n + 6 (m- n) $ is by taking $n$ disjoint cycles solved by the
+  % permutation operation of cost $3$. This implies a 3-dimensional
+  % matching of size $n$.
 \end{proof}
 
 \subsection{A 4-Approximation Algorithm for Binary Trees}\label{sec:approxbinary}
