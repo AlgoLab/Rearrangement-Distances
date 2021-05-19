@@ -1,10 +1,7 @@
-T1 = [None,0,0,2,2,1,3,3,3,4]
-T2 = [6,0,None,2,2,0,4,4,3,7]
-T3 = [None,0,0,1,2,2,4,4,4,5]
-T4 = [None,0,0,1,2,1,4,4,4,5]
-
 from statistics import mode
 from itertools import permutations, combinations
+import networkx as nx
+from functools import lru_cache
 
 def direct_children(t, i):
     c = list()
@@ -168,6 +165,62 @@ def ftp(t1, t2, kmax=4, max_iter=0):
 
     print(f'tot {tot_iter}')
 
+@lru_cache
+def to_nx(t):
+    g = nx.DiGraph()
+    for i in range(len(t)):
+        if t[i] != None:
+            g.add_edge(t[i], i)
+
+    return g
+
+@lru_cache
+def is_isomorphic(t1, t2):
+    tt1 = to_nx(t1)
+    tt2 = to_nx(t2)
+
+    return nx.is_isomorphic(tt1, tt2)
+
+
+def ftp_iso(t1, t2, kmax=4, max_iter=0):
+    t1 = t1.copy()
+    tt2 = tuple(t2)
+
+    tot_iter = 0
+    
+    for k in range(2, kmax + 1):
+        for k1 in range(1, k + 1):
+            # permutations
+            k1_search = range(len(t1))
+            for p in permutations(permutations(k1_search, 2), k1):
+                # print(p)
+                tstar = apply_linkandcut(t1, p)
+                if tstar == t2:
+                    return k1
+
+                tot_iter+=1
+                if max_iter > 0 and tot_iter >= max_iter:
+                    return -k1
+
+                if k1 == k:
+                    continue
+
+                if not is_isomorphic(tt2, tuple(tstar)):
+                    continue
+
+                for k2 in range(1, (k - k1) + 1):
+                    k2_search = range(len(tstar))
+                    for seq in permutations(combinations(k2_search, 2), k2):
+                        tstar2 = apply_permutations(tstar, seq)
+                        if tstar2 == t2:
+                            return k1 + k2
+                        tot_iter+=1
+
+                        if max_iter > 0 and tot_iter >= max_iter:
+                            return -(k1 + k2)
+
+    print(f'tot {tot_iter}')
+
 
 # tt = T1.copy()
 # print(tt)
@@ -180,6 +233,21 @@ def ftp(t1, t2, kmax=4, max_iter=0):
 # tstar = apply_linkandcut(tt,((5,1),))
 # print(tstar, T4==tstar)
 
-print(active_set(T1, T3))
-print(approx(T1, T2))
-print(ftp(T1, T2, kmax=4, max_iter=0))
+# tg1 = to_nx(T1)
+# tg2=to_nx(T3)
+
+# print(nx.is_isomorphic(tg1,tg2))
+
+if __name__ == "__main__":
+    T1 = [None,0,0,2,2,1,3,3,3,4]
+    T2 = [6,0,None,2,2,0,4,4,3,7]
+
+    T3 = [None,0,0,1,2,2,4,4,4,5]
+    T4 = [None,0,0,1,2,1,4,4,4,5]
+
+    import sys
+
+
+    # print(active_set(T1, T3))
+    # print(approx(T1, T2))
+    print(ftp_iso(T1, T2, kmax=int(sys.argv[1]), max_iter=0))
