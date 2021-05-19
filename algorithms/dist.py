@@ -165,7 +165,7 @@ def ftp(t1, t2, kmax=4, max_iter=0):
 
     print(f'tot {tot_iter}')
 
-@lru_cache
+@lru_cache()
 def to_nx(t):
     g = nx.DiGraph()
     for i in range(len(t)):
@@ -174,7 +174,7 @@ def to_nx(t):
 
     return g
 
-@lru_cache
+@lru_cache()
 def is_isomorphic(t1, t2):
     tt1 = to_nx(t1)
     tt2 = to_nx(t2)
