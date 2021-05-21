@@ -848,7 +848,7 @@ Let $X$ be the set of $S_{t,v}$ such that no node is moved with link-and cut ope
 By the construction of our reduction and the fact that the instance is 3-bounded and 1-common, the triple $t$ of each set $S_{t,v}$ of $X$ appears in exactly one permutation. Let $P$ be the set of such triples
 Hence replacing the permutation with a sequence of permutations, one for each triple in $P$, results in a sequence where the permutations have cost 3, are disjoint, and each permutations involves exactly the elements of a triple of $\mathcal{T}$.
 
-We have to modify the link-and-cut operations involving the sets that are not in $X$, but no new operation is added, completing the proof.\gdv{I don't like the proof, but it shows clearly that cycles of the movement graphs corresponds to triples in the instance. Hence we can remove the movement graph.g}
+We have to modify the link-and-cut operations involving the sets that are not in $X$, but no new operation is added, completing the proof.\gdv{I don't like the proof, but it shows clearly that cycles of the movement graphs corresponds to triples in the instance. Hence we can remove the movement graph.}
 %
   % operations of total size $d(\Tone,\Ttwo)$ will consist of a
   % permutation followed by a sequence of link-and-cut operations.
@@ -906,35 +906,23 @@ too much with respect to the size of $\cP$.
   insertions and substitutions of subsets.  The crucial observation is
   that such an operation will only affect the \emph{neighborhood} of
   $a$, namely the (possibly empty) set of its children $c_{T_1}(a)$
-  and its parent $p_{T_1}(a)$ in $T_1$.  Let us consider each child
-  $v \in c_{T_1}(a)$ first.  We have the following cases.
+  and its parent $p_{T_1}(a)$ in $T_1$. 
+  Let us split the children into three sets:
   \begin{itemize}
-  \item($v\in\cP_{(a,b)}\subseteq\cX$): since $\pi$ makes $b$ the
-    parent of $v$, which is exactly the parent of $v$ in $T_1$,
-    $v \notin \cX'$ and $\cP_{(a,b)}$ will be missing from $\cP'$;
-  \item ($v\in\cP_{(a,c)}\subseteq\cX$, $c\neq b$): after applying
-    $\pi$, $v$ will belong to set $\cP'_{(b,c)}$, thus $\cP_{(a,c)}$
+  \item $c_{T_1}(a) \cap \cP_{(a,b)}$, that is the children that are in $\cP_{(a,b)}$. 
+  Notice that $\pi$ makes $b$ the new parent of all nodes in $c_{T_1}(a) \cap \cP_{(a,b)}$, therefore $\cP_{(a,b)}$ will be removed.
+  \item $c_{T_1}(a) \cap \cP_{(a,a)}$, that is the children that are not in the family partition. The new set $\cP'_{(b,a)}$ will be created with those children.
+  \item $c_{T_1}(a) \setminus \cP_{(a,b)}\setminus \cP_{(a,a)}$, that is the children that are not in $\cP_{(a,b)}$. 
+  A generic children $v\in c_{T_1}(a) \setminus \cP_{(a,b)}$ belongs to a set  $\cP_{(a,c)}$, thus $\cP_{(a,c)}$
     will be replaced by $\cP'_{(b,c)}$ in $\cP'$;
-  \item ($v\notin\cX$): then $v \in \cP'_{(b,a)}$ in $\cP'$, thus
-    $\cP'$ might have an extra element with respect to $\cP$.
   \end{itemize}
 
-  Consider now the possible effects of $\pi$ on $p_{T_1}(a)$. There
-  are two possible scenarios:
-  \begin{itemize}
-  \item ($b\in \cP_{(p_{T_1}(b),p_{T_2}(b))} \subseteq \cX$): if
-    $p_{T_2}(b)=p_{T_1}(a)$, then $b \notin \cX'$ and if $b$ was the
-    only element of $\cP_{(p_{T_1}(b),p_{T_2}(b))}$, the latter will
-    be missing from $\cP'$; else,
-    $b \in \cP'_{(p_{T_1}(a),p_{T_2}(b))}$, thus
-    $\cP_{(p_1(b),p_2(b))}$ will be replaced by
-    $\cP'_{(p_{T_1}(a),p_{T_2}(b))}$ in $\cP'$;
-  \item ($b\notin\cX$): then $b \in \cP'_{(p_{T_1}(a),p_{T_2}(b))}$ in
-    $\cP'$, thus $\cP'$ might have an extra element with respect to
-    $\cP$.
-  \end{itemize}
+  Consider now the possible effects of $\pi$ on $p_{T_1}(a)$. Notice that $a\in \cP_{(p_{T_1}(a),p_{T_2}(a))}$ and $a\in \cP'_{(p_{T_1}(b),p_{T_2}(a))}$.
+  Therefore $\cP_{(p_{T_1}(a),p_{T_2}(a))}$ is the only set of the family partition that might be deleted, while $\cP'_{(p_{T_1}(b),p_{T_2}(a))}$ is the only set that might be created.
+
+
   In summary, $\cP'$ is obtained from $\cP$ with up to two deletions
-  and two additions of sets in the family partition for each label
+  and two additions of sets in the family partition (and an unbounded number of replacements) for each label
   involved in the permutation $\pi$, thus the result follows.
 \end{proof}
 
@@ -1014,7 +1002,7 @@ In what follows we do not make any assumptions on the degrees of $\Tone$ and $\T
 We will actually consider the rearrangement distance generalized to forests, $\tilde d(\Fone,\Ftwo)$ (see the definition at Section~\ref{sec:preliminariestree}), and show how to approximate it within
 a constant factor. This allows us to approximate $d(\Tone,\Ttwo)$ within a constant factor
 using the following procedure.
-First, we add $n$ leaves $n+1,n+2,\ldots,n$ attached to the (identical) roots of $\Tone$ and $\Ttwo$ to obtain $\Tone'$ and $\Ttwo'$, respectively.
+First, we add $n$ leaves $n+1,n+2,\ldots,n$ \gdv{$2n$?} attached to the (identical) roots of $\Tone$ and $\Ttwo$ to obtain $\Tone'$ and $\Ttwo'$, respectively.
 We call the resulting trees \emph{anchored}. Because $\Tone$ and $\Ttwo$ are assumed to have the
 same root that cannot be permuted, we have $d(\Tone,\Ttwo)=d(\Tone',\Ttwo')$.
 We claim that $\tilde d(\Tone',\Ttwo')=d(\Tone',\Ttwo')$.
@@ -1342,9 +1330,8 @@ also contains a parameter $k$: in time $O((4k)^{2k^{2}}n)$ we (1)
 determine if $d(T_{1}, T_2)\le k $ and, if this is the case, (2) find
 the minimum sequence of operations transforming $T_{1}$ into $T_{2}$.
 
-The main idea of our algorithm is that, since a permutation operation is essentially just renaming the nodes, we can reorder the sequence of
-operations that transforms $T_{1}$ into $T_{2}$ so that all
-permutations precede the link-and-cut operations.  Let $T^{*}$ be the
+Recall that we can consider only sequences of operations transforming $T_{1}$ into $T_{2}$ so that all
+permutations precede the link-and-cut operations.  Let $T^{*}$ be a
 tree obtained from $T_{1}$ using only permutations and such that we
 can optimally obtain $T_{2}$ from $T^{*}$ using only link-and-cut
 operations.  Then $d(T_1,T_2) = d_{\pi}(T_{1}, T^{*}) +
@@ -1363,14 +1350,17 @@ rearrangement distance $d(T_1,T_2)$ is at most $k$.
     \For{$k\gets 1$ to $2|\cP|$}{%
         \ForEach{tree $T^*$ that can be obtained from $T_1$ with a sequence $S_{Pi}$ of at most $k$ permutations}{%
             $k_1\gets d_{\Pi}(T_1, T^*)$\;
-            \If{$T^* = T_2$}{%
-                \Return $S_{\Pi}$
-            }
-            \ForEach{tree $T$ that can be obtained from $T^*$ with a sequence $S_{\ell}$ of at most $k - k_1$ link-and-cut operations}{%
-                \If{$T = T_2$}{%
+            % \If{$T^* = T_2$}{%
+            %     \Return $S_{\Pi}$
+            % }
+            $\cP_1 \gets$ the family partition associated with the pair $(T^*, T_2)$\;
+            $S_{\ell}\gets $ the optimal sequence of link-and-cut operations transforming $T^*$ into $T_2$\;
+            % \ForEach{tree $T$ that can be obtained from $T^*$ with a sequence $S_{\ell}$ of at most $k - k_1$ link-and-cut operations}{%
+            \If{$k_1 + | S_{\ell} | \le k$}{%
+              %  \If{$T = T_2$}{%
                     \Return the concatenation $S_{\Pi} S_{\ell}$
                 }
-            }
+            % }
         }
     }
 
