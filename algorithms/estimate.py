@@ -1,18 +1,64 @@
-from dist import ftp, approx
+from itertools import permutations
+from dist import ftp, approx, swap, linkandcut, descendands
 import networkx as nx
 import argparse
+from random import choice, random
+
+
 import matplotlib.pyplot as plt
+from networkx.drawing.nx_agraph import graphviz_layout
 
 
 def to_array(t):
-    tt = list()
-    td = nx.DiGraph([(u,v) for (u,v) in t.edges if u<v])
-    nx.draw(td)
-    plt.show()
-    # for n in t.nodes:
-    #     print(n)
-    #     for k in t.predecessors(n):
-    #         print(k, t.predecessors(n)[k])
+    assert nx.is_tree(t)
+    tt = [None for _ in range(len(t.nodes))]
+        
+    for n in t.nodes:
+        for k in t.predecessors(n):
+            assert type(k) == int
+            tt[n] = k
+    return tt
+
+def random_tree(n):
+    randprufer = nx.random_tree(n)
+    randtree = nx.bfs_tree(randprufer, choice(range(n)))
+    return to_array(randtree)
+
+def is_valid_linkandcut(t, i, j):
+    if i != j and not j in descendands(t, i):
+        return True
+    return False
+
+def perturbe(t, d):
+    tt = t.copy()
+    n = len(t)
+
+    for _ in range(d):
+        opt = random()
+        if opt < 0.5:
+            # permutation
+            i = choice(range(n))
+            j = choice(range(n))
+            while i == j:
+                i = choice(range(n))
+                j = choice(range(n))
+            swap(tt, i, j)
+
+        else:
+            # link and cut
+            i = choice(range(n))
+            j = choice(range(n))
+            while not is_valid_linkandcut(tt, i, j):
+                i = choice(range(n))
+                j = choice(range(n))
+            linkandcut(tt, i, j)
+    return tt
+
+def report(t1, t2, d, k, d_approx, d_ftp, header=False):
+    if header:
+        print('t1,t2,d,k,approximation,ftp')
+    print(f'"{t1}","{t2}",{d},{k},{d_approx},{d_ftp}')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='estimate approx factor.')
@@ -24,12 +70,10 @@ if __name__ == '__main__':
                         help='ftp\'s kmax')
     args = parser.parse_args()
 
+    t1 = random_tree(args.n)
+    t2 = perturbe(t1, args.d)
 
-    randtree = nx.random_tree(args.n)
-    s = nx.topological_sort(randtree)
-    print(s[0])
-    tree = nx.bfs_tree(randtree, 0)
-    nx.draw(tree)
-    plt.show()
-    print(randtree.edges)
-    to_array(randtree)
+    d_approx = approx(t1, t2)
+    d_ftp = ftp(t1, t2, args.k)
+
+    report(t1, t2, args.d, args.k, d_approx, d_ftp)

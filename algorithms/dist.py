@@ -136,7 +136,7 @@ def ftp(t1, t2, kmax=4, max_iter=0):
     tot_iter = 0
     
     for k in range(2, kmax + 1):
-        for k1 in range(1, k + 1):
+        for k1 in range(0, k + 1):
             # permutations
             k1_search = range(len(t1))
             for p in permutations(combinations(k1_search, 2), k1):
@@ -245,9 +245,14 @@ if __name__ == "__main__":
     T3 = [None,0,0,1,2,2,4,4,4,5]
     T4 = [None,0,0,1,2,1,4,4,4,5]
 
+    t1 = [8, 5, 7, None, 0, 3, 4, 4, 1, 1]
+    t2 = [8, 5, 7, None, 0, 3, 2, 4, 1, 1]
+
     import sys
 
 
     # print(active_set(T1, T3))
     # print(approx(T1, T2))
-    print(ftp_iso(T1, T2, kmax=int(sys.argv[1]), max_iter=0))
+    # print(ftp_iso(T1, T2, kmax=int(sys.argv[1]), max_iter=0))
+    print(approx(t1,t2))
+    print(ftp(t1,t2, int(sys.argv[1])))
