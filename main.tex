@@ -210,40 +210,6 @@ $T_2$.
 \end{definition}
 
 
-%
-%
-The following Lemma ensures that the definition of link-and-cut
-distance is well posed.
-\begin{lemma}
-\label{lemma:wellposed}
-Given two trees $T_1$ and $T_2$ each labelled by $[n]$, there
-exists a sequence of link-and-cut operations that transforms $T_1$
-into $T_2$.
-\end{lemma}
-%
-\begin{proof}
-  In this proof we will exploit the fact that no two nodes of a tree share the same label by using a label to denote a node --- we will make the tree explicit when necessary.
-
-
-  Let $v$ be a node of $T_1$ such that $\lambda(p_{T_1}(v)) \neq \lambda(p_{T_2}(v))$ and no proper ancestor of $v$ in $T_1$ has such a property --- if no such node $v$ exists, then $T_1$ and $T_2$ are isomorphic.
-  Let $u$ and $w$ be respectively the parent of $v$ in $T_1$ (resp. $T_2$), that is $p_{T_1}(v)=u$ and $p_{T_2}(v)=w$.
-
-  If $w$ is not a descendant of $v$ in $T_1$, we can apply the $\edge{v}{u}{w}$ operation, strictly decreasing the number of vertices $v$ such that $\lambda(p_{T_1}(v)) \neq \lambda(p_{T_2}(v))$, therefore we can recurse on such a tree.
-
-
-  If $w$ is a descendant of $v$ in $T_1$,  we can prove that there
-exists a node $z$ on the path from $v$ to $w$ in $T_1$ (including $w$)
-such that $p_{T_2}(z)$ is not a descendant of $v$ in $T_2$ and nor a
-descendant of $z$ in $T_1$. In this case we can apply the sequence of two operations $\edge{z}{p_{T_1}(z)}{p
-_{T_2}(z)}$ and $\edge{v}{u}{w}$, whose
-final result is a tree with fewer vertices $v$ such that $\lambda(p_{T_1}(v)) \neq \lambda(p_{T_2}(v))$. Just as before, we can recurse on such a tree.
-
-Assume to the contrary that it does not exist a node $z$ on the path from $v$ to $w$ in $T_1$ such that $p_{T_2}(z)$ is not a descendant of $v$ in $T_2$ and nor
-descendant of $z$ in $T_1$.
-Then $w$ is a descendant of $v$ also in
-$T_2$\gdv{Why?}, contradicting the fact that $w$ is the parent of $v$ in $T_2$.
-\end{proof}
-
 
 Clearly, the permutation distance $d_{\pi}(T_1,T_2)$ is defined only
 when $T_1$ and $T_2$ are isomorphic, and it is evidently well
@@ -274,46 +240,6 @@ We next define two structures that capture two fundamental characteristics of th
 %   different parents in $T_1$ and $T_2$, i.e., $v \in \cX$ iff
 %   $p_{T_1}(v) \ne p_{T_2}(v)$.
 % \end{definition}
-Given two trees $T_1$ and $T_2$, we can associate with $v$ the pair
-$(p_{T_1}(v),p_{T_2}(v))$ of the parents of $v$ in the two trees.  Given a pair of distinct nodes $u$ and $w$, we define
-$\cP_{(u,w)}$ as the set $\{v ~:~ p_{T_1}(v) = u, ~ p_{T_2}(v) = w\}$: since each vertex different from the root has exactly one parent in each tree, each vertex
-$v\in \cX$ belongs to at most one set $\cP_{(u,w)}$.  This fact is
-formalized in the following definition and illustrated in
-Example~\ref{ex:partition}.
-
-\begin{definition}[family partition]
-  \label{definition:partition}
-  Let trees $T_1$ and $T_2$ each be labelled by $[n]$: for each vertex
-  $v \in \cX$ we denote the set $\cP_{(u,w)} = \{v ~:~ p_{T_1}(v) = u,
-  ~ p_{T_2}(v) = w\}$.  Then $\cP$, called \emph{family partition}, is the collection of the nonempty sets $\cP_{(u,w)}$, $u,w \in V$ such that $u\neq w$.
-\end{definition}
-
-\begin{example}
-  \label{ex:partition}
-  Consider $T_1$ and $T_2$ of Figure~\ref{fig:dist}.
-  The family partition is composed of the
-  following sets: $\cP_{(2,3)}=\{4,5,6\}$, $\cP_{(3,2)}=\{10\}$.
-\end{example}
-
-\begin{figure}[t]
-    \centering
-   \includegraphics[width=0.95\linewidth]{Fig/rearrangement.pdf}
-    \caption[Example of rearrangement distance between two trees]{Trees $\Tone$ and $\Ttwo$ labelled by $[10]$. The link-and-cut distance $d_\ell(\Tone,\Ttwo)$ is 4, given, for example, by the sequence $\edge{4}{2}{3}$, $\edge{5}{2}{3}$, $\edge{6}{2}{3}$, $\edge{10}{3}{2}$. The rearrangement distance is 3, given, for example, by the sequence $(2~3),\edge{7}{3}{2}$.}
-    \label{fig:dist}
-  \end{figure}
-
-  bthm
-Note that the family partition encodes the elements of any shortest
-sequence of link-and-cut operations for transforming $T_1$ into $T_2$:
-$v \in \cP_{(u,w)}$ corresponds to operation $\edge{v}{u}{w}$. It is
-easy to see, from the proof of Lemma~\ref{lemma:wellposed}, that a
-shortest sequence of valid link-and-cut operations can be obtained from
-$\cP$ by ordering the set of operations it encodes with respect to a
-\emph{depth-first traversal} (DFT) of $T_1$:
-$\edge{u}{p_{T_1}(u)}{p_{T_2}(u)}$ precedes
-$\edge{v}{p_{T_1}(v)}{p_{T_2}(v)}$ if $u$ precedes $v$ in a DFT of
-$T_1$. Hence the link-and-cut distance $d_{\ell}(T_1,T_2)$
-is equal to number of nodes that are in some set of the family partition  $\cP$.
 
 In Section~\ref{sec:approxtree}, for ease of presentation, in addition to the link-and-cut operation we will also work with the cut operation, defined as follows:
 \begin{itemize}
@@ -356,6 +282,78 @@ This procedure decomposes the nodes of $T$ into node-disjoint paths called \emph
 Each heavy path $p$ starts at some node, called its \emph{head}, and ends at a leaf: $\head_{T}(u)$ denotes the head of the heavy path containing a node $u$ in $T$. An important property of such a decomposition is
 that the number of distinct heavy paths above any leaf (that is, intersecting the path from a leaf to the root) is only logarithmic
 in the size of $T$~\cite{DBLP:journals/jcss/SleatorT83}.
+
+\section{Link-and-cut Distance}
+\label{sec:link-and-cut}
+
+In this section we present a simple linear-time algorithm to compute the link-and-cut distance between two trees. The main technical device is called \emph{family partition}.
+
+Given two trees $T_1$ and $T_2$, we can associate with $v$ the pair
+$(p_{T_1}(v),p_{T_2}(v))$ of the parents of $v$ in the two trees.  Given a pair of (not necessarily distinct) nodes $u$ and $w$, we define
+$\cP_{(u,w)}$ as the set $\{v ~:~ p_{T_1}(v) = u, ~ p_{T_2}(v) = w\}$. 
+Since each vertex different from the root has exactly one parent in each tree, each vertex
+$v\in \cX$ belongs to exactly one set $\cP_{(u,w)}$.  This fact leads to the following definition, which is illustrated in
+Example~\ref{ex:partition}.
+
+\begin{definition}[family partition]
+  \label{definition:partition}
+  Let trees $T_1$ and $T_2$ each be labelled by $[n]$: for each vertex
+  $v \in \cX$ we denote the set $\cP_{(u,w)} = \{v ~:~ p_{T_1}(v) = u,
+  ~ p_{T_2}(v) = w\}$.  Then $\cP$, called \emph{family partition}, is the collection of the nonempty sets $\cP_{(u,w)}$, $u,w \in V$ such that $u\neq w$.
+\end{definition}
+
+\begin{example}
+  \label{ex:partition}
+  Consider $T_1$ and $T_2$ of Figure~\ref{fig:dist}.
+  The family partition is composed of the
+  following sets: $\cP_{(2,3)}=\{4,5,6\}$, $\cP_{(3,2)}=\{10\}$.
+\end{example}
+
+\begin{figure}[t]
+    \centering
+   \includegraphics[width=0.95\linewidth]{Fig/rearrangement.pdf}
+    \caption[Example of rearrangement distance between two trees]{Trees $\Tone$ and $\Ttwo$ labelled by $[10]$. The link-and-cut distance $d_\ell(\Tone,\Ttwo)$ is 4, given, for example, by the sequence $\edge{4}{2}{3}$, $\edge{5}{2}{3}$, $\edge{6}{2}{3}$, $\edge{10}{3}{2}$. The rearrangement distance is 3, given, for example, by the sequence $(2~3),\edge{7}{3}{2}$.}
+    \label{fig:dist}
+  \end{figure}
+
+
+%
+%
+The following Lemma explicits the relevance of the notion of family partition.
+
+\begin{lemma}
+\label{lemma:algorithm-link-and-cut}
+Given two trees $T_1$ and $T_2$ each labelled by $[n]$, let $\cP$ be the family partition associated to with those trees, and let $X$ be the set of nodes $v$ such that $\lambda(p_{T_1}(v)) \neq \lambda(p_{T_2}(v))$. 
+Then there is a linear-time algorithm that computes the shortest sequence of link-and-cut operations that transforms $T_1$ into $T_2$, and such a sequence consists of $|X|$ operations.
+\end{lemma}
+%
+\begin{proof}
+  In this proof we will exploit the fact that no two nodes of a tree share the same label by using a label to denote a node --- we will make the tree explicit when necessary.
+
+  Let $v$ be a node in $X$, that is $v$ belongs to a set $\cP_{(a,b)}$ with $a\neq b$.
+  Notice that each node in $X$ must be moved with at least a link-and-cut operation, hence $d_\ell(T_1, T_2)\ge |X|$. In the following we will describe how to obtain a sequence of exactly $|X|$ operation transforming $T_1$ into $T_2$.
+
+  Let $v$ be a node of $X$ such that no proper descendant of $v$ in $T_1$ belongs to $X$ --- if no such node $v$ exists, then $T_1$ and $T_2$ are isomorphic.
+  Without loss of generality, $v\in \cP_{(u,w)}$, that is $p_{T_1}(v)=u$ and $p_{T_2}(v)=w$.
+
+  If $w$ is not a descendant of $v$ in $T_1$, we can apply the $\edge{v}{u}{w}$ operation --- hence removing $v$ from $X$ --- and recurse on the resulting tree.
+
+  Assume now that $w$ is a descendant of $v$ in $T_1$, and let $<v, x_1, \ldots, x_{q-1}, x_q = w>$ be the path of $T_1$ from $v$ to $w$. Since no proper descendant of $v$ in $T_1$ belongs to $X$, $p_{T_1}(x_i)=p_{T_2}(x_i)$ for each $i\le q$, that is $<v, x_1, \ldots, x_{q-1}, x_q = w>$ is also path of $T_2$ --- $v$ is an ancestor of $w$ in $T_2$. 
+  This contradicts the fact that $p_{T_2}(v)=w$, therefore $w$ is not a descendant of $v$ in $T_1$ and the link-and-cut operation $\edge{v}{u}{w}$ is valid.  
+  \end{proof}
+
+
+% Note that the family partition encodes the elements of any shortest
+% sequence of link-and-cut operations for transforming $T_1$ into $T_2$:
+% $v \in \cP_{(u,w)}$ corresponds to operation $\edge{v}{u}{w}$. It is
+% easy to see, from the proof of Lemma~\ref{lemma:wellposed}, that a
+% shortest sequence of valid link-and-cut operations can be obtained from
+% $\cP$ by ordering the set of operations it encodes with respect to a
+% \emph{depth-first traversal} (DFT) of $T_1$:
+% $\edge{u}{p_{T_1}(u)}{p_{T_2}(u)}$ precedes
+% $\edge{v}{p_{T_1}(v)}{p_{T_2}(v)}$ if $u$ precedes $v$ in a DFT of
+% $T_1$. Hence the link-and-cut distance $d_{\ell}(T_1,T_2)$
+% is equal to number of nodes that are in some set of the family partition  $\cP$.
 
 \section{Permutation Distance}
 \label{sec:permutation}
