@@ -182,7 +182,7 @@ def is_isomorphic(t1, t2):
     return nx.is_isomorphic(tt1, tt2)
 
 
-def ftp_iso(t1, t2, kmax=4, max_iter=0):
+def ftp_iso(t1, t2, kmax, max_iter=0):
     t1 = t1.copy()
     tt2 = tuple(t2)
 
