@@ -13,5 +13,5 @@ echo "t1,t2,d,k,approximation,ftp"
 
 for x in $(seq 1 1 $i)
 do
-   python3 estimate.py -n $n -d $d -k $k
+   /usr/bin/python3 estimate.py -n $n -d $d -k $k
 done
