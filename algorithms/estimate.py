@@ -1,5 +1,5 @@
 from itertools import permutations
-from dist import ftp, approx, swap, linkandcut, descendands
+from dist import fpt, approx, swap, linkandcut, descendands, fpt2
 import networkx as nx
 import argparse
 from random import choice, random
@@ -77,8 +77,14 @@ if __name__ == '__main__':
     t_approx = stop - start
 
     start = timeit.default_timer()
-    d_fpt = ftp(t1, t2, args.k)
+    d_fpt = fpt2(t1, t2, args.k)
     stop = timeit.default_timer()
     t_fpt = stop - start
 
+    # start = timeit.default_timer()
+    # d_fpt2 = fpt2(t1, t2, args.k)
+    # stop = timeit.default_timer()
+    # t_fpt2 = stop - start
+
     report(t1, t2, args.d, args.k, d_approx, d_fpt, t_approx, t_fpt)
+    # print(d_fpt, d_fpt2, t_fpt2)

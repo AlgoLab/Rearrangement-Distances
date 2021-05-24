@@ -162,8 +162,45 @@ def fpt(t1, t2, kmax=4, max_iter=0):
 
                         if max_iter > 0 and tot_iter >= max_iter:
                             return -(k1 + k2)
+    return -1
 
-    print(f'tot {tot_iter}')
+
+def fpt2(t1, t2, kmax):
+    t1 = t1.copy()
+
+    min_dist = 1e5
+    
+    for k in range(2, kmax + 1):
+        for k1 in range(0, k + 1):
+            # permutations
+            k1_search = range(len(t1))
+            for p in permutations(combinations(k1_search, 2), k1):
+                tstar = apply_permutations(t1, p)
+                if tstar == t2:
+                    return k1
+
+                opt_seq = len(active_set(tstar, t2))
+                if opt_seq <= k - k1 and opt_seq + k1 < min_dist:
+                    min_dist = opt_seq + k1
+                    print('up')
+                    return min_dist
+                    
+
+                if k1 == k:
+                    continue
+
+                # for k2 in range(1, (k - k1) + 1):
+                #     k2_search = range(len(tstar))
+                #     for seq in permutations(permutations(k2_search, 2), k2):
+                #         tstar2 = apply_linkandcut(tstar, seq)
+                #         if tstar2 == t2:
+                #             return k1 + k2
+                #         tot_iter+=1
+
+                #         if max_iter > 0 and tot_iter >= max_iter:
+                #             return -(k1 + k2)
+
+    return min_dist
 
 @lru_cache()
 def to_nx(t):
@@ -245,10 +282,18 @@ if __name__ == "__main__":
     T3 = [None,0,0,1,2,2,4,4,4,5]
     T4 = [None,0,0,1,2,1,4,4,4,5]
 
-    t1 = [8, 5, 7, None, 0, 3, 4, 4, 1, 1]
-    t2 = [8, 5, 7, None, 0, 3, 2, 4, 1, 1]
+    t1 = [4, None, 6, 5, 3, 2, 1, 5, 2, 8]
+    t2 = [4, None, 6, 4, 5, 2, 1, 5, 9, 2]
 
     import sys
+
+    # from matplotlib import pyplot as plt
+    # pos=nx.nx_agraph.graphviz_layout(to_nx(tuple(t1)),prog='dot')
+    # nx.draw(to_nx(tuple(t1)), pos=pos, with_labels=True)
+    # plt.show()
+    # pos=nx.nx_agraph.graphviz_layout(to_nx(tuple(t2)),prog='dot')
+    # nx.draw(to_nx(tuple(t2)), pos=pos, with_labels=True)
+    # plt.show()
 
 
     # print(active_set(T1, T3))
@@ -256,3 +301,4 @@ if __name__ == "__main__":
     # print(ftp_iso(T1, T2, kmax=int(sys.argv[1]), max_iter=0))
     print(approx(t1,t2))
     print(fpt(t1,t2, int(sys.argv[1])))
+    print(fpt2(t1,t2, int(sys.argv[1])))
