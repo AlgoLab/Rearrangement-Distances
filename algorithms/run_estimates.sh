@@ -9,7 +9,7 @@ do
     esac
 done
 
-echo "t1,t2,d,k,approximation,ftp"
+echo "t1,t2,d,k,approximation,fpt,approximation_time,fpt_time"
 
 for x in $(seq 1 1 $i)
 do

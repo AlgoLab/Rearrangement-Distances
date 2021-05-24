@@ -4,9 +4,7 @@ import networkx as nx
 import argparse
 from random import choice, random
 
-
-import matplotlib.pyplot as plt
-from networkx.drawing.nx_agraph import graphviz_layout
+import timeit
 
 
 def to_array(t):
@@ -54,10 +52,9 @@ def perturbe(t, d):
             linkandcut(tt, i, j)
     return tt
 
-def report(t1, t2, d, k, d_approx, d_ftp, header=False):
-    if header:
-        print('t1,t2,d,k,approximation,ftp')
-    print(f'"{t1}","{t2}",{d},{k},{d_approx},{d_ftp}')
+def report(t1, t2, d, k, d_approx, d_fpt, t_approx, t_fpt):
+    't1,t2,d,k,approximation,fpt,approximation_time,fpt_time'
+    print(f'"{t1}","{t2}",{d},{k},{d_approx},{d_fpt},{t_approx},{t_fpt}')
 
 
 if __name__ == '__main__':
@@ -73,7 +70,15 @@ if __name__ == '__main__':
     t1 = random_tree(args.n)
     t2 = perturbe(t1, args.d)
 
-    d_approx = approx(t1, t2)
-    d_ftp = ftp(t1, t2, args.k)
 
-    report(t1, t2, args.d, args.k, d_approx, d_ftp)
+    start = timeit.default_timer()
+    d_approx = approx(t1, t2)
+    stop = timeit.default_timer()
+    t_approx = stop - start
+
+    start = timeit.default_timer()
+    d_fpt = ftp(t1, t2, args.k)
+    stop = timeit.default_timer()
+    t_fpt = stop - start
+
+    report(t1, t2, args.d, args.k, d_approx, d_fpt, t_approx, t_fpt)

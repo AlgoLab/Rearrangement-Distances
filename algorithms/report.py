@@ -14,9 +14,9 @@ if __name__ == '__main__':
         approx_std = df["approximation"].std()
         approx_median = df["approximation"].median()
 
-        fpt_mean = df["ftp"].mean()
-        fpt_std = df["ftp"].std()
-        fpt_median = df["ftp"].median()
+        fpt_mean = df["fpt"].mean()
+        fpt_std = df["fpt"].std()
+        fpt_median = df["fpt"].median()
 
         print(f'# N={n}, d={d}, k={k}, simulations={tot}')
         print('| | mean | std | median |')

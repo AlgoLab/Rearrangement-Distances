@@ -130,7 +130,7 @@ def apply_linkandcut(t, op):
         # tt[o[0]] = tt[o[1]]
     return tt
 
-def ftp(t1, t2, kmax=4, max_iter=0):
+def fpt(t1, t2, kmax=4, max_iter=0):
     t1 = t1.copy()
 
     tot_iter = 0
@@ -182,7 +182,7 @@ def is_isomorphic(t1, t2):
     return nx.is_isomorphic(tt1, tt2)
 
 
-def ftp_iso(t1, t2, kmax, max_iter=0):
+def fpt_iso(t1, t2, kmax, max_iter=0):
     t1 = t1.copy()
     tt2 = tuple(t2)
 
@@ -255,4 +255,4 @@ if __name__ == "__main__":
     # print(approx(T1, T2))
     # print(ftp_iso(T1, T2, kmax=int(sys.argv[1]), max_iter=0))
     print(approx(t1,t2))
-    print(ftp(t1,t2, int(sys.argv[1])))
+    print(fpt(t1,t2, int(sys.argv[1])))
