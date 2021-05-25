@@ -165,13 +165,15 @@ def fpt(t1, t2, kmax=4, max_iter=0):
     return -1
 
 
-def fpt2(t1, t2, kmax):
+def fpt2(t1, t2, kmax, first_exit=False):
     t1 = t1.copy()
 
-    min_dist = 1e5
+    min_dist = kmax**2
     
     for k in range(2, kmax + 1):
         for k1 in range(0, k + 1):
+            if k1 >= min_dist:
+                return min_dist
             # permutations
             k1_search = range(len(t1))
             for p in permutations(combinations(k1_search, 2), k1):
@@ -182,27 +184,16 @@ def fpt2(t1, t2, kmax):
                 opt_seq = len(active_set(tstar, t2))
                 if opt_seq <= k - k1 and opt_seq + k1 < min_dist:
                     min_dist = opt_seq + k1
-                    print('up')
-                    return min_dist
+                    if first_exit:
+                        return min_dist
                     
 
                 if k1 == k:
                     continue
 
-                # for k2 in range(1, (k - k1) + 1):
-                #     k2_search = range(len(tstar))
-                #     for seq in permutations(permutations(k2_search, 2), k2):
-                #         tstar2 = apply_linkandcut(tstar, seq)
-                #         if tstar2 == t2:
-                #             return k1 + k2
-                #         tot_iter+=1
-
-                #         if max_iter > 0 and tot_iter >= max_iter:
-                #             return -(k1 + k2)
 
     return min_dist
 
-@lru_cache()
 def to_nx(t):
     g = nx.DiGraph()
     for i in range(len(t)):
@@ -211,7 +202,6 @@ def to_nx(t):
 
     return g
 
-@lru_cache()
 def is_isomorphic(t1, t2):
     tt1 = to_nx(t1)
     tt2 = to_nx(t2)
