@@ -1,5 +1,5 @@
 from statistics import mode
-from itertools import permutations, combinations
+from itertools import permutations, combinations, chain
 import networkx as nx
 from functools import lru_cache
 
@@ -119,6 +119,16 @@ def apply_permutations(t, p):
         swap(tt, op[0], op[1])
     return tt
 
+def apply_permutations_seq(t, p):
+    tt = t.copy()
+    if len(p) == 2:
+        swap(tt, p[0], p[1])
+    else:
+        for i, _ in enumerate(p):
+            j = (i + 1) % len(p)
+            swap(tt, p[i], p[j])
+    return tt
+
 def linkandcut(tt, i, j):
     if i!= j and not j in descendands(tt, i):
         tt[i] = j
@@ -164,8 +174,11 @@ def fpt(t1, t2, kmax=4, max_iter=0):
                             return -(k1 + k2)
     return -1
 
+def calc_pseq_w(p):
+    s = set(chain(*p))
+    return len(s)
 
-def fpt2(t1, t2, kmax, first_exit=False):
+def fpt2(t1, t2, kmax, quick_return=False):
     t1 = t1.copy()
 
     min_dist = kmax**2
@@ -184,14 +197,76 @@ def fpt2(t1, t2, kmax, first_exit=False):
                 opt_seq = len(active_set(tstar, t2))
                 if opt_seq <= k - k1 and opt_seq + k1 < min_dist:
                     min_dist = opt_seq + k1
-                    if first_exit:
+                    print('up', p, opt_seq)
+                    if quick_return:
                         return min_dist
                     
 
                 if k1 == k:
                     continue
 
+    return min_dist
 
+def fpt2w(t1, t2, kmax, quick_return=False):
+    t1 = t1.copy()
+    min_dist = kmax**2
+    
+    for k in range(2, kmax + 1):
+        for k1 in range(0, k + 1):
+            if k1 >= min_dist:
+                return min_dist
+            # permutations
+            k1_search = range(len(t1))
+            for p in permutations(combinations(k1_search, 2), k1):
+                tstar = apply_permutations(t1, p)
+                pw = calc_pseq_w(p)
+                if tstar == t2:
+                    return pw
+
+                opt_seq = len(active_set(tstar, t2))
+                if opt_seq <= k - pw and opt_seq + pw < min_dist:
+                    min_dist = opt_seq + pw
+                    print('up', p, opt_seq)
+                    if quick_return:
+                        return min_dist
+                    
+
+                if k1 == k:
+                    continue
+
+    return min_dist
+
+# Change approach to permutations
+def fptP(t1, t2, kmax, quick_return=False):
+    t1 = t1.copy()
+    min_dist = kmax**2
+    
+    for k in range(2, kmax + 1):
+        # check for k1=0 -> lac only
+        opt_seq = len(active_set(t1, t2))
+        if opt_seq <= k and opt_seq < min_dist:
+            min_dist = opt_seq
+
+        # p starts from 2 and do it in permutations sense
+        for k1 in range(2, k + 1):
+            if k1 >= min_dist:
+                return min_dist
+            # permutations
+            k1_search = range(len(t1))
+            for p in permutations(k1_search, k1):
+                tstar = apply_permutations_seq(t1, p)
+                if tstar == t2:
+                    return k1
+
+                opt_seq = len(active_set(tstar, t2))
+                if opt_seq <= k - k1 and opt_seq + k1 < min_dist:
+                    print('up', k1, opt_seq, p)
+                    min_dist = opt_seq + k1
+                    if quick_return:
+                        return min_dist
+
+                if k1 == k:
+                    continue
     return min_dist
 
 def to_nx(t):
@@ -272,8 +347,8 @@ if __name__ == "__main__":
     T3 = [None,0,0,1,2,2,4,4,4,5]
     T4 = [None,0,0,1,2,1,4,4,4,5]
 
-    t1 = [4, None, 6, 5, 3, 2, 1, 5, 2, 8]
-    t2 = [4, None, 6, 4, 5, 2, 1, 5, 9, 2]
+    t1 = [8, 7, 6, 9, 2, 4, 9, None, 2, 1]
+    t2 = [5, 7, 0, 5, 2, 1, 8, None, 2, 8]
 
     import sys
 
@@ -290,5 +365,8 @@ if __name__ == "__main__":
     # print(approx(T1, T2))
     # print(ftp_iso(T1, T2, kmax=int(sys.argv[1]), max_iter=0))
     print(approx(t1,t2))
-    print(fpt(t1,t2, int(sys.argv[1])))
-    print(fpt2(t1,t2, int(sys.argv[1])))
+    # print(fpt2w(t1,t2, int(sys.argv[1])))
+    print(fptP(t1,t2, int(sys.argv[1])))
+
+    # print(apply_permutations(t1, ((8,9),)))
+    # print(apply_permutations_seq(t1, (8,9)))

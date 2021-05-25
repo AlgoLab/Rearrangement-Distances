@@ -1,5 +1,5 @@
 from itertools import permutations
-from dist import fpt, approx, swap, linkandcut, descendands, fpt2
+from dist import fptP, approx, swap, linkandcut, descendands, fpt2
 import networkx as nx
 import argparse
 from random import choice, random
@@ -31,9 +31,10 @@ def perturbe(t, d):
     tt = t.copy()
     n = len(t)
 
-    for _ in range(d):
+    ix = 0
+    while ix < d:
         opt = random()
-        if opt < 0.5:
+        if opt < 0.5 and d-ix > 2:
             # permutation
             i = choice(range(n))
             j = choice(range(n))
@@ -41,6 +42,8 @@ def perturbe(t, d):
                 i = choice(range(n))
                 j = choice(range(n))
             swap(tt, i, j)
+            print('s',i,j)
+            ix+=1
 
         else:
             # link and cut
@@ -50,6 +53,8 @@ def perturbe(t, d):
                 i = choice(range(n))
                 j = choice(range(n))
             linkandcut(tt, i, j)
+            print('l',i,j)
+        ix+=1
     return tt
 
 def report(t1, t2, d, k, d_approx, d_fpt, t_approx, t_fpt):
@@ -77,14 +82,14 @@ if __name__ == '__main__':
     t_approx = stop - start
 
     start = timeit.default_timer()
-    d_fpt = fpt2(t1, t2, args.k)
+    d_fpt = fptP(t1, t2, args.k)
     stop = timeit.default_timer()
     t_fpt = stop - start
 
     # start = timeit.default_timer()
-    # d_fpt2 = fpt2(t1, t2, args.k)
+    # d_fptP = fptP(t1, t2, args.k)
     # stop = timeit.default_timer()
-    # t_fpt2 = stop - start
+    # t_fptP = stop - start
 
     report(t1, t2, args.d, args.k, d_approx, d_fpt, t_approx, t_fpt)
     # print(d_fpt, d_fpt2, t_fpt2)

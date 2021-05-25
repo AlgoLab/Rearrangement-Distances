@@ -21,6 +21,6 @@ if __name__ == '__main__':
         print(f'# N={n}, d={d}, k={k}, simulations={tot}')
         print('| | mean | std | median |')
         print('|--|--|--|--|')
-        print(f'| approximation | {approx_mean} | {approx_std} | {approx_median} |')
-        print(f'| FPT | {fpt_mean} | {fpt_std} | {fpt_median} |')
+        print(f'| approximation | {approx_mean:.4f} | {approx_std:.4f} | {approx_median:.4f} |')
+        print(f'| FPT | {fpt_mean:.4f} | {fpt_std:.4f} | {fpt_median:.4f} |')
         print()
