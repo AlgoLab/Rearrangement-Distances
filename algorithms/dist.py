@@ -121,12 +121,20 @@ def apply_permutations(t, p):
 
 def apply_permutations_seq(t, p):
     tt = t.copy()
-    if len(p) == 2:
-        swap(tt, p[0], p[1])
-    else:
-        for i, _ in enumerate(p):
-            j = (i + 1) % len(p)
-            swap(tt, p[i], p[j])
+    for ix, _ in enumerate(p):
+        jx = (ix + 1) % len(p)
+        i = p[ix]
+        j = p[jx]
+        # tt[i] = t[j]
+        # tt[j] = t[i]
+        # print(i,j)
+        # for c in direct_children(t, i):
+        #     tt[c] = j
+        # for c in direct_children(t, j):
+        #     tt[c] = i
+        swap(tt, i, j)
+        if jx == len(p) - 1:
+            break
     return tt
 
 def linkandcut(tt, i, j):
@@ -364,9 +372,17 @@ if __name__ == "__main__":
     # print(active_set(T1, T3))
     # print(approx(T1, T2))
     # print(ftp_iso(T1, T2, kmax=int(sys.argv[1]), max_iter=0))
-    print(approx(t1,t2))
+    # print(approx(t1,t2))
     # print(fpt2w(t1,t2, int(sys.argv[1])))
-    print(fptP(t1,t2, int(sys.argv[1])))
+    # print(fptP(t1,t2, int(sys.argv[1])))
 
     # print(apply_permutations(t1, ((8,9),)))
-    # print(apply_permutations_seq(t1, (8,9)))
+    print(t1)
+    tt = apply_permutations_seq(t1, (8,4,3,5))
+    # tt = apply_permutations_seq(tt, (4,3))
+    # tt = apply_permutations_seq(tt, (3,5))
+    # tt = apply_permutations(t1, ((8,4),(4,3),(3,5)))
+    # print(tt)
+    # pos=nx.nx_agraph.graphviz_layout(to_nx(tt),prog='dot')
+    # nx.draw(to_nx(tt), pos=pos, with_labels=True)
+    # plt.show()

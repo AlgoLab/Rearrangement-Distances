@@ -1,5 +1,5 @@
 from itertools import permutations
-from dist import fptP, approx, swap, linkandcut, descendands, fpt2
+from dist import fptP, approx, swap, linkandcut, descendands
 import networkx as nx
 import argparse
 from random import choice, random
@@ -31,10 +31,12 @@ def perturbe(t, d):
     tt = t.copy()
     n = len(t)
 
+    # TODO: update random generation
+
     ix = 0
     while ix < d:
         opt = random()
-        if opt < 0.5 and d-ix > 2:
+        if opt < 0.5:
             # permutation
             i = choice(range(n))
             j = choice(range(n))
