@@ -1,8 +1,9 @@
 from itertools import permutations
-from dist import fptP, approx, swap, linkandcut, descendands
+from dist import fptP, approx, apply_permutations_seq, linkandcut, descendands
 import networkx as nx
 import argparse
 from random import choice, random
+import numpy as np
 
 import timeit
 
@@ -28,35 +29,21 @@ def is_valid_linkandcut(t, i, j):
     return False
 
 def perturbe(t, d):
-    tt = t.copy()
     n = len(t)
 
-    # TODO: update random generation
-
-    ix = 0
-    while ix < d:
-        opt = random()
-        if opt < 0.5:
-            # permutation
+    p_len = int(np.random.triangular(2, 2, d))
+    rand_p = tuple(np.random.choice(range(n), size=p_len, replace=False))
+    tt = apply_permutations_seq(t, rand_p)
+    
+    for _ in range(d - p_len):
+        # link and cut
+        i = choice(range(n))
+        j = choice(range(n))
+        while not is_valid_linkandcut(tt, i, j):
             i = choice(range(n))
             j = choice(range(n))
-            while i == j:
-                i = choice(range(n))
-                j = choice(range(n))
-            swap(tt, i, j)
-            print('s',i,j)
-            ix+=1
+        linkandcut(tt, i, j)
 
-        else:
-            # link and cut
-            i = choice(range(n))
-            j = choice(range(n))
-            while not is_valid_linkandcut(tt, i, j):
-                i = choice(range(n))
-                j = choice(range(n))
-            linkandcut(tt, i, j)
-            print('l',i,j)
-        ix+=1
     return tt
 
 def report(t1, t2, d, k, d_approx, d_fpt, t_approx, t_fpt):
