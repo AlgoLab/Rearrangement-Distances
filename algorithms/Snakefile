@@ -1,0 +1,19 @@
+N = [10, 20, 30, 40]
+DK = [3, 4, 5]
+I = [100]
+
+
+rule master:
+    input:
+        expand('simulations/n{n}_d{dk}_k{dk}_i{i}.csv',
+            n = N,
+            dk = DK,
+            I = I)
+
+rule run_estimate:
+    output:
+        'simulations/n{n}_d{dk}_k{dk}_i{i}.csv'
+    shell:
+        '''
+            ./run_estimates.sh -n {n} -d {dk} -k {dk} -i {i} > simulations/n{n}_d{dk}_k{dk}_i{i}.csv
+        '''
