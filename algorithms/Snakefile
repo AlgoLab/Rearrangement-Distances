@@ -8,7 +8,7 @@ rule master:
         expand('simulations/n{n}_d{dk}_k{dk}_i{i}.csv',
             n = N,
             dk = DK,
-            I = I)
+            i = I)
 
 rule run_estimate:
     output:
