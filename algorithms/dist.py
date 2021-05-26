@@ -205,7 +205,7 @@ def fpt2(t1, t2, kmax, quick_return=False):
                 opt_seq = len(active_set(tstar, t2))
                 if opt_seq <= k - k1 and opt_seq + k1 < min_dist:
                     min_dist = opt_seq + k1
-                    print('up', p, opt_seq)
+                    # print('up', p, opt_seq)
                     if quick_return:
                         return min_dist
                     
@@ -234,7 +234,7 @@ def fpt2w(t1, t2, kmax, quick_return=False):
                 opt_seq = len(active_set(tstar, t2))
                 if opt_seq <= k - pw and opt_seq + pw < min_dist:
                     min_dist = opt_seq + pw
-                    print('up', p, opt_seq)
+                    # print('up', p, opt_seq)
                     if quick_return:
                         return min_dist
                     
@@ -268,7 +268,7 @@ def fptP(t1, t2, kmax, quick_return=False):
 
                 opt_seq = len(active_set(tstar, t2))
                 if opt_seq <= k - k1 and opt_seq + k1 < min_dist:
-                    print('up', k1, opt_seq, p)
+                    # print('up', k1, opt_seq, p)
                     min_dist = opt_seq + k1
                     if quick_return:
                         return min_dist
