@@ -28,11 +28,11 @@
 | approximation | 9.6000 | 2.6015 | 9.0000 | 3.6201E-04 |
 | FPT | 3.7800 | 0.5041 | 4.0000 | 1.8578E-01 |
 
-# N=20, d=5, k=5, simulations=30
+# N=20, d=5, k=5, simulations=100
 | | mean | std | median | avg time (s) |
 |--|--|--|--|--|
-| approximation | 11.8000 | 2.7965 | 11.0000 | 3.4710E-04 |
-| FPT | 4.8000 | 0.4842 | 5.0000 | 4.2626E+00 |
+| approximation | 12.0000 | 2.7229 | 12.0000 | 3.5165E-04 |
+| FPT | 4.7400 | 0.5049 | 5.0000 | 3.9485E+00 |
 
 # N=30, d=3, k=3, simulations=100
 | | mean | std | median | avg time (s) |
@@ -46,11 +46,11 @@
 | approximation | 11.3300 | 2.6172 | 12.0000 | 5.6535E-04 |
 | FPT | 3.8600 | 0.3487 | 4.0000 | 8.4196E-01 |
 
-# N=30, d=5, k=5, simulations=5
+# N=30, d=5, k=5, simulations=100
 | | mean | std | median | avg time (s) |
 |--|--|--|--|--|
-| approximation | 16.4000 | 2.3022 | 16.0000 | 5.4277E-04 |
-| FPT | 4.8000 | 0.4472 | 5.0000 | 2.7954E+01 |
+| approximation | 14.0100 | 2.8551 | 14.0000 | 5.7160E-04 |
+| FPT | 4.7800 | 0.4623 | 5.0000 | 2.8478E+01 |
 
 # N=40, d=3, k=3, simulations=100
 | | mean | std | median | avg time (s) |
@@ -58,15 +58,15 @@
 | approximation | 9.9400 | 2.5018 | 10.0000 | 8.5593E-04 |
 | FPT | 2.9700 | 0.1714 | 3.0000 | 4.7062E-02 |
 
-# N=40, d=4, k=4, simulations=48
+# N=40, d=4, k=4, simulations=100
 | | mean | std | median | avg time (s) |
 |--|--|--|--|--|
-| approximation | 12.5000 | 2.7906 | 12.5000 | 8.4338E-04 |
-| FPT | 3.9167 | 0.2793 | 4.0000 | 2.6193E+00 |
+| approximation | 12.5000 | 2.8727 | 13.0000 | 8.4296E-04 |
+| FPT | 3.9100 | 0.3208 | 4.0000 | 2.6236E+00 |
 
-# N=40, d=5, k=5, simulations=1
+# N=40, d=5, k=5, simulations=100
 | | mean | std | median | avg time (s) |
 |--|--|--|--|--|
-| approximation | 15.0000 | nan | 15.0000 | 7.6079E-04 |
-| FPT | 3.0000 | nan | 3.0000 | 4.6127E-02 |
+| approximation | 15.7100 | 2.9208 | 15.0000 | 8.3335E-04 |
+| FPT | 4.9000 | 0.3333 | 5.0000 | 1.2912E+02 |
 
