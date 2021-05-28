@@ -23,10 +23,16 @@ if __name__ == '__main__':
         fpt_median = df["fpt"].median()
         fpt_time = df["fpt_time"].mean()
 
-        print(f'# N={n}, d={d}, k={k}, simulations={tot}')
+        df["approx_factor"] = df["approximation"]/df["fpt"]
+        aproxfact_mean = df["approx_factor"].mean()
+        aproxfact_std = df["approx_factor"].std()
+        aproxfact_median = df["approx_factor"].median()
+        aproxfact_max = df["approx_factor"].max()
+
+        print(f'# N={n}, d={d}, k={k}, simulations={tot}, max approx factor = {aproxfact_max:.4f}')
         print('| | mean | std | median | avg time (s) |')
         print('|--|--|--|--|--|')
         print(f'| approximation | {approx_mean:.4f} | {approx_std:.4f} | {approx_median:.4f} | {approx_time:.4E} |')
         print(f'| FPT | {fpt_mean:.4f} | {fpt_std:.4f} | {fpt_median:.4f} | {fpt_time:.4E} |')
+        print(f'| approx factor | {aproxfact_mean:.4f} | {aproxfact_std:.4f} | {aproxfact_median:.4f} | |')
         print()
-
