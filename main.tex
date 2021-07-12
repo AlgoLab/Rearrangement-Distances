@@ -1435,10 +1435,16 @@ d_{\ell}(T^{*}, T_{2})$.
 Since we can compute $d_{\ell}(T^{*}, T_{2})$ in linear
 time (Lemma~\ref{lemma:algorithm-link-and-cut}).
 
-Lemma~\ref{lemma:partition} shows that each permutation has only a limited effect on the number of sets of the family partition. 
-Our algorithm consists of showing that
-$d_{\pi}(T_{1}, T^{*})$ is related to the size of the family
+Notice
+that any sequence of operations that transforms $T_{1}$ into $T_2$
+also transforms $\cX$ into the empty set, and thus $\cP$ into the empty
 partition.
+At the same time, Lemma~\ref{lemma:partition} shows that each permutation has only a limited effect on the number of sets of the family partition. 
+
+Let $\mathcal{X}$ be the set of labels $x$ such that $x\in \cP_{(a,b)}$ with $a\neq b$ or $x$ has  a child $y$ such that $x\in \cP_{(a,b)}$ with $a\neq b$. Such a set $\mathcal{X}$ is called the active set.
+
+Our algorithm consists of showing that
+$|\mathcal{X}| \le 2 |\cP|$ and that only labels in $\mathcal{X}$ can be involved in a permutation.
 Finding
 such a tree $T^{*}$ is easier when we want to determine if the
 rearrangement distance $d(T_1,T_2)$ is at most $k$.
@@ -1470,10 +1476,7 @@ rearrangement distance $d(T_1,T_2)$ is at most $k$.
 
 In fact, a consequence of Lemma~\ref{lemma:partition} is that
 $d(T_{1}, T_2) \geq d_{\pi}(T_{1}, T^{*})\geq |\cP|/2 $, where $\cP$
-is the family partition associated with $T_{1}$ and $T_{2}$.  Notice
-that any sequence of operations that transforms $T_{1}$ into $T_2$
-also transforms $\cX$ into the empty set, and thus $\cP$ into the empty
-partition. The next lemma states that each operation in an optimal sequence strictly decreases the size of the family partition; this allows us to bound the size of the search tree in terms of the size of the family partition.
+is the family partition associated with $T_{1}$ and $T_{2}$.  The next lemma states that each operation in an optimal sequence strictly decreases the size of the family partition; this allows us to bound the size of the search tree in terms of the size of the family partition.
 
 \begin{lemma}
   \label{lemma:always-smaller-family-partition}
