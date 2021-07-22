@@ -815,7 +815,7 @@ common~\cite{jiang-2015-approximation}. % We also make use of the following stru
 %  set is $V_G = \bigcup_{(u,w) \in E_G} \{u,w\}$.
 %\end{definition}
 
-We now prove that computing the rearrangement distance is NP-hard.
+We now prove that computing the rearrangement distance is NP-hard. In the following, with a slight abuse of notation we will write $u\in t$, for some triple $t=(a,b,c)\in\mathcal{T}$, instead of $u\in \{a,b,c\}$.
 
 \begin{theorem}
   \label{theorem:rearrangement}
@@ -897,17 +897,16 @@ We now prove that computing the rearrangement distance is NP-hard.
   $d(\Tone, \Ttwo) \leq 3n + 6(m-n)$ if and only if $H$ has a
   3-dimensional matching of size $n$.
 
-  Consider such an instance $H$ of 3-bounded 1-common 3-dimensional matching.  In the
-  construction, the trees $\Tone$ and $\Ttwo$ each have the same root
-  $r$, and a node for every element of $A$, $B$ and $C$ --- each of
-  which have $r$ as the parent.  For each triple $t=(a,b,c)\in
+  Consider such an instance $H$ of 3-bounded 1-common 3-dimensional matching.  We construct two trees $\Tone$ and $\Ttwo$, both with the same root
+  $r$, and in both of them we add a node for every element of $A$, $B$ and $C$ as children of the root $r$.  For each triple $t=(a,b,c)\in
   \mathcal{T}$, in $\Ttwo$ we add a pair $\{t_v^1, t_v^2\}$ of
-  (uniquely labelled) children for each $v \in \{a,b,c\}$ of the
-  triple $t$.  In $\Tone$, we add the pairs $\{t_v^1, t_v^2\}$ to each of these
-  three nodes, but cyclically shifted, with respect to $\Ttwo$,
-  i.e., we add $\{t_b^1, t_b^2\}$ to $a$, $\{t_c^1, t_c^2\}$ to $b$, $\{t_a^1, t_a^2\}$ to
-  $c$. Note that, since each element of $U=A\cup B\cup C$ occurs at most three times in the triples, in both trees each direct descendant of $r$ has at most $6$ children.
+  (uniquely labelled) children for each $v \in t$ t.  In $\Tone$, we add the pairs $\{t_v^1, t_v^2\}$ to each of these
+  three nodes, but cyclically shifted with respect to $\Ttwo$,
+  i.e., we add $\{ t_b^1, t_b^2\}$ to $a$, $\{t_c^1, t_c^2\}$ to $b$, $\{t_a^1, t_a^2\}$ to
+  $c$, as shown in Figure~\ref{fig:reductionNP}. Note that, since each element of $U=A\cup B\cup C$ occurs at most three times in the triples, in both trees each direct descendant of $r$ has at most $6$ children; and since any two triples of $\mathcal{T}$ share at most one element, for both $\Tone$ and $\Ttwo$ it holds, by construction, that there are no two children of the root $x,y$ and two triples $s,t$ of $\mathcal{T}$ such that $s_u^1, s_u^2,t_{u'}^1, t_{u'}^2$ are all children of $x$ and $s_v^1, s_v^2,t_{v'}^1, t_{v'}^2$ are all children of $y$, for some $u,v\in s$ and $u',v'\in t$.
   
+  \begin{comment}
+  \giulia{How was this useful? I removed it for now, I don't think we used any of that in the proof.}
   By construction of the trees \Tone{} and \Ttwo, we can assume that
   each permutation involves only nodes of the universal set $U = A
   \cup B \cup C$ or only nodes representing triples of $\cT$ (never a
@@ -920,20 +919,25 @@ We now prove that computing the rearrangement distance is NP-hard.
   ourselves to sequences of operations consisting of permutations of
   nodes of $U$ followed by link-and-cut operations on nodes
   representing the triples.
+  \end{comment}
 
-  Let $M$ be a 3-dimensional matching of $H$.  Then for each triple
-  $t=(a,b,c) \in M$ we apply the permutation $(a,b,c)$ to $\Tone$.  After
+  \paragraph{
+  3-dimensional matching of size $\boldsymbol{n\implies d(\Tone, \Ttwo) \leq 3n + 6(m-n)}$.}Let $M$ be a 3-dimensional matching of $H$.  Then for each triple
+  $t=(a,b,c) \in M$, apply the permutation $(a,b,c)$ to $\Tone$.  After
   this permutation, both nodes $t_v^1, t_v^2$ (with $v\in \{a,b,c\}$)
   have $v$ as new parent.  Since $M$ is a matching, those
   permutations are independent.  For each triple $t=(a,b,c) \notin M$,
   apply a link-and-cut operation to both nodes $t_v^1, t_v^2$ (with $v\in
   \{a,b,c\}$) so that their new parent is $v$.  It is immediate to
   notice that the resulting tree is exactly $T_2$ and that the overall
-  cost of the operations is at most $3n + 6(m - n)$. Indeed, each of the $n$ triples of the matching implies a permutation of size $3$, and since each node in $U=A\cup B\cup C$ has at most $6$ children, at most $6(m-n)$ additional link-and-cut operations are needed to transform $\Tone$ into $\Ttwo$. \gdv{Requires inverting
+  cost of the operations is $3n + 6(m - n)$. 
+  %Indeed, each of the $n$ triples of the matching implies a permutation of size $3$, and since each node in $U=A\cup B\cup C$ has at most $6$ children, at most $6(m-n)$ additional link-and-cut operations are needed to transform $\Tone$ into $\Ttwo$.
+  \gdv{Requires inverting
     \Tone and \Ttwo}\murray{I think the slight change made in this
     paragraph avoids this requirement (or am I missing something?)}\giulia{Gianluca is right. I inverted the names of the two trees and inverted the cyclic rotation with which we construct $\Tone$ (former $\Ttwo$). Could someone please double-check?}
   
-  Let us now consider a sequence $S$ of permutations followed by
+  \paragraph{
+  3-dimensional matching of size $\boldsymbol{ d(\Tone, \Ttwo) \leq 3n + 6(m-n)\implies}$ 3-dimensional matching of size $\boldsymbol{n}$.}Let us now consider a sequence $S$ of permutations followed by
   link-and-cut operations that transforms $\Tone$ to $\Ttwo$.  We will
   show how to obtain a sequence of permutations followed by
   link-and-cut operations that is not more expensive than $S$, and
