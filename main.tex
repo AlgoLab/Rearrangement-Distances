@@ -1000,7 +1000,7 @@ We now prove that computing the rearrangement distance is NP-hard. In the follow
 \end{proof}
 
 \subsection{A 4-Approximation Algorithm for Binary Trees}\label{sec:approxbinary}
-
+\begin{comment}
 Given two trees $T_1$ and $T_2$, we can associate with $v$ the pair
 $(p_{T_1}(v),p_{T_2}(v))$ of the parents of $v$ in the two trees.
 Given a pair of (not necessarily distinct) nodes $u, w$, we
@@ -1008,46 +1008,54 @@ define $\cP_{(u,w)}$ as the set $\{v ~:~ p_{T_1}(v) = u, ~ p_{T_2}(v)
 = w\}$. Since each vertex different from the root has exactly one
 parent in each tree, each vertex $v\in [n]$ belongs to exactly one set $\cP_{(u,w)}$.
 We then denote by $\cP$ the collection of the nonempty sets $\cP_{(u,w)}$, $u,w \in V$ such that $u\neq w$, and by $|\cP|$ the number of sets in $\cP$.
+\end{comment}
+Given two trees $T_1$ and $T_2$, we can associate with $v$ the pair
+$(p_{T_1}(v),p_{T_2}(v))$ of the parents of $v$ in the two trees.
+In fact, we collect those of such pairs that have $p_{T_1}(v)\neq p_{T_2}(v)$ into the \emph{family partition} of the two trees. Formally, we define the family partition $P(\Tone,\Ttwo)=\{(p_{T_1}(v),p_{T_2}(v)):v\neq \text{root}\land p_{T_1}(v)\neq p_{T_2}(v)\}$.
 We start by giving a lemma which states that when we
 apply a permutation to the labels of $T_1$ obtaining $T'_1$, the size
-of the resulting set $\cP'$ cannot increase or decrease
-too much with respect to the size of $\cP$.
+of the resulting set $P(\Tone',\Ttwo)$ cannot increase or decrease
+too much with respect to the size of $P(\Tone,\Ttwo)$.
 
 \begin{lemma}
   \label{lemma:partition}
-  Given trees $T_1$ and $T_2$ with the corresponding set $\cP$, if $T_1'$ is the tree (isomorphic to $T_1$)
-  resulting from the application of permutation $\pi$ of the labels of $T_1$, and $\cP'$ is the set obtained for $T_1'$ and $T_2$, then $|\cP| - 2|\pi|
-  \le |\cP'| \le |\cP| + 2|\pi|$.
+  Given trees $T_1$ and $T_2$, if $T_1'$ is the tree (isomorphic to $T_1$)
+  resulting from the application of permutation $\pi$ of the labels of $T_1$, then $|P(\Tone,\Ttwo)| - 2|\pi|
+  \le |P(\Tone',\Ttwo)| \le |P(\Tone,\Ttwo)| + 2|\pi|$.
 \end{lemma}
 
 \begin{proof}
-  Let $a$ be some label of $T_1$ which has been perturbed by
-  permutation $\pi$, i.e., $\pi(a) = b \ne a$.  The new set $\cP'$ is obtained from $\cP$ by means of deletions,
-  insertions and substitutions of subsets.  The crucial observation is
+  Let $a$ be some node of $T_1$ which has been perturbed by
+  permutation $\pi$, i.e., $\pi(a) = b \ne a$.  The new set $P(\Tone',\Ttwo)$ is obtained from $P(\Tone,\Ttwo)$ by means of deletions,
+  insertions and substitutions of pairs. The crucial observation is
   that such an operation will only affect the \emph{neighborhood} of
-  $a$, namely the (possibly empty) set of its children $c_{T_1}(a)$
-  and its parent $p_{T_1}(a)$ in $T_1$. 
-  Let us split the children into three sets:
+  $a$ in $\Tone$, namely the (possibly empty) set of its children $c_{T_1}(a)$
+  and its parent $p_{T_1}(a)$. 
+  Consider the nodes in $c_{T_1}(a)$. They can be split into three (possibly empty) sets:
   \begin{itemize}
-  \item $c_{T_1}(a) \cap \cP_{(a,b)}$, that is the children that are in $\cP_{(a,b)}$. 
-  Notice that $\pi$ makes $b$ the new parent of all nodes in $c_{T_1}(a) \cap \cP_{(a,b)}$, therefore $\cP_{(a,b)}$ will be removed;
-  \item $c_{T_1}(a) \cap \cP_{(a,a)}$, that is the children that are not in some set of $\cP$. The new set $\cP'_{(b,a)}$ will be created with those children;
-  \item $c_{T_1}(a) \setminus \cP_{(a,b)}\setminus \cP_{(a,a)}$, that is the children that are not in $\cP_{(a,b)}$. 
-  A generic children $v\in c_{T_1}(a) \setminus \cP_{(a,b)}$ belongs to a set  $\cP_{(a,c)}$, thus $\cP_{(a,c)}$
-    will be replaced by $\cP'_{(b,c)}$ in $\cP'$.
+  \item $\{v\in c_{T_1}(a): p_{T_2}(v)=b\}$. Since $\pi$ makes $b$ the new parent of all nodes in this set, $(a,b)$ must be removed from $P(\Tone,\Ttwo)$ to obtain $P(\Tone',\Ttwo)$
+  \item $\{v\in c_{T_1}(a): p_{T_2}(v)=a\}$. If this set is nonempty, then $(b,a)$ must be added to $P(\Tone,\Ttwo)$ to obtain $P(\Tone',\Ttwo)$ (note that $(b,a)$ could already be part of $P(\Tone,\Ttwo)$)
+  \item $\{v\in c_{T_1}(a): p_{T_2}(v)=c\notin \{a,b\}\}$.
+  The effect of $\pi$ on these nodes is to change their parent from $a$ to $b$, therefore $(a,c)\in P(\Tone,\Ttwo)$ must be replaced by  $(b,c)$ to obtain $P(\Tone',\Ttwo)$
   \end{itemize}
-
-  Overall, for each label $a$, at most one set of $\cP$ will be created and at most one will be deleted.
-  Consider now the possible effects of $\pi$ on $p_{T_1}(a)$. Notice that $a\in \cP_{(p_{T_1}(a),p_{T_2}(a))}$ and $a\in \cP'_{(p_{T_1}(b),p_{T_2}(a))}$.
+  %Overall, for each label $a$, at most one set of $P(\Tone,\Ttwo)$ will be created and at most one will be deleted.
+  Consider now the possible effects of $\pi$ on $p_{T_1}(a)$.
+  There are two cases: 
+  \begin{itemize}
+      \item $p_{T_1}(a)=p_{T_2}(a)$. Let $c$ such that $\pi(c)=a\neq c$. Then the new pair  $(p_{T_1}(c),p_{T_2}(a))$ must be added to $P(\Tone,\Ttwo)$ to obtain $P(\Tone',\Ttwo)$ (unless it holds that $p_{T_1}(c)=p_{T_1}(a)$)
+      \item $p_{T_1}(a)\neq p_{T_2}(a)$. Then $(p_{T_1}(a),p_{T_2}(a))\in P(\Tone,\Ttwo)$ and it must be removed if $p_{T_1}(c)=p_{T_2}(a)$, or it must be replaced by $(p_{T_1}(c),p_{T_2}(a))$ otherwise
+   \end{itemize} 
+   \begin{comment}
+  Notice that $a\in \cP_{(p_{T_1}(a),p_{T_2}(a))}$ and $a\in \cP'_{(p_{T_1}(b),p_{T_2}(a))}$.
   Therefore $\cP_{(p_{T_1}(a),p_{T_2}(a))}$ is the only set of $\cP$ that might be deleted, while $\cP'_{(p_{T_1}(b),p_{T_2}(a))}$ is the only set that might be created.
-
-  In summary, $\cP'$ is obtained from $\cP$ with up to two deletions
-  and two additions of sets in $\cP$ (and an unbounded number of replacements) for each label
-  involved in the permutation $\pi$, thus the result follows.
+    \end{comment}
+  In summary, $P(\Tone',\Ttwo)$ is obtained from $P(\Tone,\Ttwo)$ with up to two deletions
+  and two additions of pairs in $P(\Tone,\Ttwo)$ (and an unbounded number of replacements) for each label
+  involved in the permutation $\pi$. The result follows.
 \end{proof}
 
 In the special case where one of the trees, e.g., $T_1$, is
-\emph{binary}, that is, each node has up to two children, we have the
+binary, that is, each node has up to two children, we have the
 following lemma connecting link-and-cut and rearrangement distance.
 
 \begin{lemma}
@@ -1061,18 +1069,16 @@ following lemma connecting link-and-cut and rearrangement distance.
   permutation $\pi$ of the labels followed by a number of link-and-cut
   operations.  Let $T'_1$ be the tree
   resulting from the application of permutation $\pi$ of the labels of
-  $T_1$, and$\cP'$ the set obtained for
-  $T'_1$ and $T_2$.  By the construction of $\cP'$, the optimal number of link-and-cut operations to obtain
-  $T_2$ from $T'_1$ is at least $|\cP'|$; we thus have that
-  $d(T_1,T_2) \ge |\pi| + |\cP'| $. Moreover, Lemma
-  \ref{lemma:partition} says that $|\pi|\ge \frac{|\cP|-|\cP'|}{2}$,
-  thus $d(T_1,T_2)\ge \frac{|\cP|-|\cP'|}{2} + |\cP'| =
-  \frac{|\cP|}{2} + \frac{|\cP'|}{2} \ge \frac{|\cP|}{2}$. Let $X=\bigcup_{\cP_{(x,y)}\in\cP}\cP_{(x,y)}$ be the set nodes whose parents in $\Tone$ and $\Ttwo$ are different. Now, since
-  $T_1$ is binary, each set in $\cP$ consists of
-  up to two elements (the elements of $\cP_{(x,y)}$ are the ones among
-  the children of $x$ in $T_1$ that becomes the children of $y$ in
-  $T_2$, thus they cannot be more than the number of children of
-  $x$). It follows that $|X|=d_{\ell}(T_1,T_2)\le 2\cdot|\cP|$,
+  $T_1$.  By the definition of $P(\Tone',\Ttwo)$, the optimal number of link-and-cut operations to obtain
+  $T_2$ from $T'_1$ is at least $|P(\Tone',\Ttwo)|$; we thus have that
+  $d(T_1,T_2) \ge |\pi| + |P(\Tone',\Ttwo)| $. Moreover, Lemma
+  \ref{lemma:partition} says that $|\pi|\ge \frac{|P(\Tone,\Ttwo)|-|P(\Tone',\Ttwo)|}{2}$,
+  thus $d(T_1,T_2)\ge \frac{|P(\Tone,\Ttwo)|-|P(\Tone',\Ttwo)|}{2} + |P(\Tone',\Ttwo)| =
+  \frac{|P(\Tone,\Ttwo)|}{2} + \frac{|P(\Tone',\Ttwo)|}{2} \ge \frac{|P(\Tone,\Ttwo)|}{2}$. Let $X$ be the set nodes whose parents in $\Tone$ and $\Ttwo$ are different. Now, since
+  $T_1$ is binary, each pair  $(x,y)\in P(\Tone,\Ttwo)$ corresponds to
+  up to two elements (the children of $x$ in $T_1$ that become the children of $y$ in
+  $T_2$), thus they cannot be more than the number of children of
+  $x$. It follows that $|X|=d_{\ell}(T_1,T_2)\le 2\cdot|P(\Tone,\Ttwo)|$,
   hence $d(T_1,T_2)\ge \frac{d_{\ell}(T_1,T_2)}{4}$.
 \end{proof}
 
