@@ -8,6 +8,8 @@ if __name__ == '__main__':
     files = sys.argv[1:]
     for f in files:
         df = pd.read_csv(f)
+        if len(df) == 0:
+            continue
         n = len(eval(df.iloc[0,0]))
         d = df.iloc[0,2]
         k = df.iloc[0,3]
