@@ -1554,6 +1554,19 @@ the $Approx$ and the $Exac$ algorithms.
 The latter was used because, given the randomness of the operations,
 it is possible for the actual distance to be less than $d$.
 
+Table~\ref{table:experiments} reports the results for each settings
+of the experimentation; the highest approximation factor reported
+is 6, but the average is ~3 suggesting that the actual
+expected approximation factor is lower than the reported maximum.
+Interestingly to notice is the running time of the $Approx$ algorithm
+that remains almost instantaneous, while the $Exac$ algorithm, 
+as expected, quickly becomes unusable.
+In fact we designed and run the experiment for 
+$n=\{10,20,30,40,50,80,160,320\} \times d=\{3,4,5,6\}$
+where the combinations not reported in the table are
+omitted because the exponential-time algorithm
+was not able to compute in an acceptable time frame.
+
 \begin{table}[]
 \centering
 \begin{tabular}{ l|l|r|r|r|r } 
@@ -1582,7 +1595,12 @@ it is possible for the actual distance to be less than $d$.
 	160 & 4 & 5.25 & 4.00 & 7.83e-03 & 5.77e+02 \\
 	320 & 3 & 5.67 & 3.67 & 2.81e-02 & 1.82e+01 \\
 \end{tabular}
-\caption{experimental results}
+\caption{Experimental results for 100 pairs of randomly generated trees of $n$ nodes (labels)
+with a maximum distance of $d$ random link-and-cut or permutation operations.
+The table reports the maximum approximation factor and its median
+across the different settings as well as running times of both approximation and exponential
+exact algorithm.}
+\label{table:experiments}
 \end{table}
 
 \bibliographystyle{plain}
